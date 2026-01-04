@@ -1,0 +1,31 @@
+{
+  "name": "agent-skills",
+  "owner": {
+    "name": "Meaningfy",
+    "email": "info@meaningfy.ws"
+  },
+  "metadata": {
+    "description": "Agent skills for software architecture, design, and development",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "architecture-skills",
+      "description": "Architecture and design skills including architecture patterns, ADRs, BPMN, UML diagrams, and architecture documentation",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/architecture"
+      ]
+    },
+    {
+      "name": "python-architecture-skills",
+      "description": "Cosmic Python and clean architecture guidance for well-tested, layered Python systems",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/cosmic-python"
+      ]
+    }
+  ]
+}
