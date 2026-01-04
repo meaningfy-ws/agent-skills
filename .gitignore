@@ -205,3 +205,23 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Claude Code Plugin & Skills
+# Packaged skills (generated .skill files)
+*.skill
+
+# Skill build/cache directories
+skills/**/.build/
+skills/**/build/
+skills/**/.cache/
+
+# IDE and Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
