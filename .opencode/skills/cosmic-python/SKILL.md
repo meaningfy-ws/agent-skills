@@ -381,10 +381,11 @@ This approach requires **team discipline**. One developer ignoring layers breaks
 — the single source for code principles/best-practices/anti-patterns — plus code structure inside a
 service: the four layers, SOLID, what to test per layer, and CI guardrails.
 **Delegates:** TDD ritual → `superpowers:test-driven-development`; system design/topology/contracts →
-`architecture`; domain model + `make generate-models` → `conceptual-modelling`; commit/PR mechanics →
-`meaningfy-git-workflow`; sensitive-data interaction safety → `guardrails`.
+`architecture`; domain model → `conceptual-modelling`; LinkML authoring + `make generate-models` →
+`linkml-engineering`; commit/PR mechanics → `meaningfy-git-workflow`; sensitive-data interaction safety
+→ `guardrails`.
 **Related:** `architecture`, `meaningfy-code-review`, `bdd-gherkin`, `guardrails`,
-`conceptual-modelling`, `ci-cd-delivery`, `meaningfy-git-workflow`.
+`conceptual-modelling`, `linkml-engineering`, `ci-cd-delivery`, `meaningfy-git-workflow`.
 
 ### Canonical vocabulary
 

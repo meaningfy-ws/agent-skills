@@ -12,7 +12,7 @@ Assist users in developing rigorous system architecture models through **contrac
 
 **This skill owns** system/solution design: C4 zoom levels, ArchiMate/UML notation, ADRs, and external contracts (OpenAPI/AsyncAPI/LinkML). It is the **single source of authority for the ADR template** — any other skill or doc that needs an ADR uses `references/ADR_TEMPLATE.md` rather than inventing one.
 
-**This skill does NOT own** code structure inside a service (layers, SOLID, layer-tests, CI) — that is the **`cosmic-python`** skill — and it does NOT own the **living conceptual model** or its deterministic multi-target generation (LinkML/OWL/SHACL/Pydantic via `make generate-models`) — that is the **[`conceptual-modelling`](../conceptual-modelling/SKILL.md)** skill. The seams: architecture authors the *contract* (OpenAPI/AsyncAPI/LinkML as a notation); `conceptual-modelling` owns the *living model* and generates the typed artefacts from it; `cosmic-python`'s `entrypoints/api` *consumes* the generated contract. When a request is about how to organise Python code, defer to `cosmic-python`; about modelling the domain or generating model artefacts, defer to `conceptual-modelling`; when it is about system topology, services, or contracts, stay here.
+**This skill does NOT own** code structure inside a service (layers, SOLID, layer-tests, CI) — that is the **`cosmic-python`** skill — and it does NOT own the **living conceptual model** (that is **[`conceptual-modelling`](../conceptual-modelling/SKILL.md)**) or the **LinkML craft** that generates the typed artefacts — authoring, `make generate-models`, OWL/SHACL/Pydantic (that is **[`linkml-engineering`](../linkml-engineering/SKILL.md)**). The seams: architecture authors the *contract* (OpenAPI/AsyncAPI/LinkML as a notation); `conceptual-modelling` owns the *living model* and picks its source; `linkml-engineering` executes the LinkML and generates the artefacts; `cosmic-python`'s `entrypoints/api` *consumes* the generated contract. When a request is about how to organise Python code, defer to `cosmic-python`; about modelling the domain, defer to `conceptual-modelling`; about authoring LinkML or generating model artefacts, defer to `linkml-engineering`; when it is about system topology, services, or contracts, stay here.
 
 **Related:** `cosmic-python` (code structure), `stream-coding` (doc-first delivery method), `epic-planning` (turning a Work Shape into an implementation spec).
 
@@ -76,6 +76,35 @@ Use the appropriate notation for each level:
   - Use for: internal structure, behaviour, implementation details
   - Primary elements: Component, Class, Interface, relationships
   - Expresses: "how software responsibilities are split"
+
+## Use Case Specifications (Cockburn White & Blue)
+
+Behavioural intent is a **use case catalogue** following Alistair Cockburn's *Writing Effective Use
+Cases* — the authoritative spec of **externally observable behaviour**: a behavioural contract, **not**
+an API spec, schema, or implementation guide (those are the contract/model artefacts above). It lives
+as an annexe of the Architecture Document, cross-linked to glossary and ADRs; UML Use Case diagrams are
+an L1 structural reference only, the textual catalogue carries the meaning. Use **two levels only**:
+
+- **White (Summary level)** — the **contract**: the value guaranteed to an actor and the guarantees
+  that always hold, incl. degraded conditions. Black-box; no supporting actors. For stakeholders/
+  reviewers. Specified **at the C4 L1 boundary**.
+- **Blue (User-goal level)** — **realises** exactly one White use case: how the value is fulfilled via
+  interactions between internal responsibilities. Names supporting actors (internal components), makes
+  idempotency/failure paths explicit. For implementers. Specified **at the L2–L3 responsibility boundaries**.
+
+Both stay technology-agnostic. **DRY discipline (the point of the split):** a Blue use case
+cross-references its White parent and states only the **realisation deltas**, never restating the
+shared guarantees, scenarios, or rules. One White may fan out to several Blue (one per realisation
+surface: sync API, async integration, bulk sync…). Numbering: White `UC-W<n>` (anchor `[#uc-w<n>]`);
+Blue `UC-B<n>.<m>` refining `UC-W<n>` (anchor `[#uc-b<n>-<m>]`); doctitle matches the index link. Every
+page uses one **canonical skeleton** — same section names, order, heading levels; a metadata block
+(Level, Primary Actor, Supporting Actors [Blue only], Scope); actor names bind to the glossary.
+
+**The catalogue is the source for BDD.** A use case's Main Success Scenario, Extensions, and Alternate
+Scenarios **project to** Gherkin `.feature` scenarios (`bdd-gherkin`), which add edge-case `Examples:`
+but invent no behaviour absent from a use case. Derivation mapping: `use-cases-cockburn.md`.
+
+**References**: `use-cases-cockburn.md` (conventions, C4 mapping, BDD derivation, build workflow) + `use-case-template-white.adoc` / `use-case-template-blue.adoc` (skeletons).
 
 ## Architecture Modelling Workflow
 
@@ -586,6 +615,9 @@ This skill includes comprehensive reference guides in the `/references/` folder:
 - **ADR_TEMPLATE.md** – Standard format for creating Architectural Decision Records
 - **business-requirements-to-architecture.md** – How to extract architectural drivers from business requirements
 - **architecture-project-structure.md** – Project-oriented folder organization for architecture working sessions (decisions, diagrams by level, specifications, data models, deployment, implementation)
+- **use-cases-cockburn.md** – White/Blue use case conventions (Cockburn), numbering, canonical skeleton, C4 mapping, and catalogue build workflow
+- **use-case-template-white.adoc** – Copy-paste skeleton for a White (Summary-level) use case
+- **use-case-template-blue.adoc** – Copy-paste skeleton for a Blue (User-goal-level) use case
 
 ### Diagram Examples
 - **diagram-examples-mermaid.md** – L1 Context, L2 Containers, L3 Components with Mermaid syntax + anti-pattern
@@ -603,7 +635,7 @@ This skill includes comprehensive reference guides in the `/references/` folder:
 ### Pattern & Decision Examples
 - **decision-pattern-examples.md** – 5 real decision examples + template (async vs sync, canonical data, contract ownership, versioning, detecting premature decisions)
 
-**Total**: 13 supporting materials covering requirements, diagrams (text + Mermaid), checklists, decisions, sequences, and project organization.
+**Total**: 16 supporting materials covering requirements, use cases (Cockburn White/Blue), diagrams (text + Mermaid), checklists, decisions, sequences, and project organization.
 
 ---
 

@@ -9,6 +9,35 @@ of record for a release is the git tag `vX.Y.Z`.
 Versions at or below `2.4.0` predate this changelog; see the git history and the
 `v2.3.0` tag for earlier detail.
 
+## [2.8.0] - 2026-07-10
+
+### Added
+
+- **`modelling-conventions` skill (`meaningfy-architecture`).** The shared, representation-agnostic
+  modelling-craft layer — naming discipline, modelling anti-patterns, and editor-guiding guardrails —
+  reused by the modelling skills the way `cosmic-python` is reused by the build skills. Carries the two
+  load-bearing principles: decouple attributes into reusable first-class properties, and identify
+  everything by a stable URI (implicit by default).
+- **`linkml-engineering` skill (`meaningfy-architecture`).** The operational LinkML craft, positioned
+  **downstream of an existing model or spec — never greenfield**: derive LinkML from a UML model / text
+  spec / model2owl output / existing model; author with LinkML-specific mechanics (reusable `slots:`,
+  the URI-as-datatype artifice, implicit `class_uri`/`slot_uri`, enums, schema-level constraints);
+  generate the full target set with custom templates and `make`-target automation (including diagrams)
+  and **per-module** output; and establish quality gates **chosen with the user, not imposed**.
+  Complete, correct OWL/SHACL generation is a first-class outcome (with MUST-have element lists).
+
+### Changed
+
+- **`conceptual-modelling` refocused.** Sheds its LinkML-operational overhang (relocated to
+  `linkml-engineering`) and its generic conventions (relocated to `modelling-conventions`), keeping the
+  living conceptual model, UML conceptual modelling, the model-source decision, terminology, and the
+  concept-level ontology policy. Boundary/description retuned; delegation pointers added.
+- **`project-setup` gains a conditional LinkML branch.** When a project uses LinkML it scaffolds the
+  gates, transformation automations, and per-module artefact layout owned by `linkml-engineering`;
+  otherwise it skips them.
+- **Boundary references repointed** in `architecture` and `cosmic-python` so LinkML authoring/generation
+  routes to `linkml-engineering`, not `conceptual-modelling`.
+
 ## [2.7.3] - 2026-07-01
 
 ### Changed

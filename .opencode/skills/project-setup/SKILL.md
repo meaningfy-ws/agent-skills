@@ -27,7 +27,8 @@ rather than restating them:
 | Layering, SOLID, the four patterns, CI tools | `cosmic-python` |
 | Minimal code — YAGNI, avoid over-engineering | `ponytail` (third-party) |
 | System design, C4, ADRs, contracts | `architecture` |
-| The domain `model/` + `make generate-models` (product) | [`../conceptual-modelling/SKILL.md`](../conceptual-modelling/SKILL.md) |
+| The domain `model/` (product) | [`../conceptual-modelling/SKILL.md`](../conceptual-modelling/SKILL.md) |
+| LinkML gates, `make generate-models` automation, per-module output (if the project uses LinkML) | [`../linkml-engineering/SKILL.md`](../linkml-engineering/SKILL.md) |
 | Deploy / versioned image (CD seam) | [`../ci-cd-delivery/SKILL.md`](../ci-cd-delivery/SKILL.md) |
 | Release lifecycle — versioning, release notes, PyPI publish, `SECURITY.md` | [`../meaningfy-release/SKILL.md`](../meaningfy-release/SKILL.md) |
 | EPIC (work shape) + PLAN, the spine workflow | `epic-planning` + the `/opsx:*` commands |
@@ -66,8 +67,14 @@ hold: "automate almost everything" + TDD.** The archetype decides the *condition
 - **doc-only** is non-code: the interview MUST run a real **intention-elicitation** step (purpose,
   needed elements, what "good" means) before scaffolding gates — never assume. See
   [`references/interview.md`](references/interview.md) Q2.2.
-- **Conditional `model/`** (product): scaffolds `model/` (LinkML default) + the `make generate-models`
-  bridge — owned by [`../conceptual-modelling/SKILL.md`](../conceptual-modelling/SKILL.md).
+- **Conditional `model/`** (product): scaffolds `model/` (LinkML default) — the model itself owned by
+  [`../conceptual-modelling/SKILL.md`](../conceptual-modelling/SKILL.md). **When the project uses
+  LinkML**, also scaffold the LinkML layer owned by
+  [`../linkml-engineering/SKILL.md`](../linkml-engineering/SKILL.md): the `make generate-models`
+  automation (incl. diagrams), custom generator templates, **per-module dedicated-artefact output** (one
+  artefact set per module, not unified), and the **quality gates chosen with the user** (lint-no-mute,
+  codegen-freshness, example round-trip). **When the project does not use LinkML**, skip this layer
+  entirely — do not scaffold LinkML gates or automation.
 - **CD seam** (deployable product): renders the `ci-cd-delivery` CD templates **only after DevOps
   ratifies §6**; until then a clearly-marked `deploy.yaml` TODO stub + boundary docs (`--deployable`).
 - **Release seam** (per archetype — content owned by [`../meaningfy-release/SKILL.md`](../meaningfy-release/SKILL.md)):
