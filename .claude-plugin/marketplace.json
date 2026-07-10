@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Meaningfy company-wide skills, agents, methodologies, and engineering standards for working with LLM agents consistently",
-    "version": "2.7.3"
+    "version": "2.8.0"
   },
   "plugins": [
     {
@@ -36,12 +36,14 @@
     },
     {
       "name": "meaningfy-architecture",
-      "description": "The design / modelling role: system architecture (C4, ArchiMate/UML, ADRs, contracts) and the living conceptual model (LinkML → typed artefacts)",
+      "description": "The design / modelling role: system architecture (C4, ArchiMate/UML, ADRs, contracts), the living conceptual model, the shared modelling conventions, and the LinkML craft (LinkML → typed artefacts + OWL/SHACL)",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/architecture",
-        "./skills/conceptual-modelling"
+        "./skills/conceptual-modelling",
+        "./skills/modelling-conventions",
+        "./skills/linkml-engineering"
       ]
     },
     {

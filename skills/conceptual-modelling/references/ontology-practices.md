@@ -1,64 +1,53 @@
-# Ontology-engineering practices
+# Ontology-engineering practices (concept level)
 
-The conceptual model is an ontology in the engineering sense: identified concepts with stable
-meaning. These practices keep it citable, reusable, and durable.
+The conceptual model is an ontology in the engineering sense: identified concepts with stable meaning.
+This file owns the **concept-level policy** — the decisions made once, at the model level. The
+representation-agnostic *conventions* (reusable properties, URI-everywhere, naming, vocabulary reuse as
+a principle) live in [`../../modelling-conventions/SKILL.md`](../../modelling-conventions/SKILL.md); the
+LinkML *mechanics* that realise them (minted `prefixes`, implicit `class_uri`/`slot_uri`, the
+URI-as-datatype artifice) live in `linkml-engineering`. This file states policy and delegates both.
 
-## Stable URIs / IRIs
+## Stable-IRI policy
 
-Every entity, attribute, and enumeration value gets a **stable identifier** — an IRI (or a CURIE
-expanding to one) that does not change when the artefact is renamed, moved, or refactored.
+The *principle* that everything is identified by a stable URI, implicit by default, is a shared
+convention — see
+[`../../modelling-conventions/references/naming-and-identity.md`](../../modelling-conventions/references/naming-and-identity.md).
+The **policy decisions** are owned here:
 
-- **Mint a base namespace per model** and declare it once (LinkML `prefixes` + `default_prefix`).
-  Example: `https://data.meaningfy.ws/<domain>/` with a short prefix (e.g. `dom:`).
-- **Identifiers are opaque and permanent.** Do not encode mutable facts (version, owner, location)
-  into the local name. The label can change; the IRI must not.
-- **Mint at authoring time**, human-readable, like the other golden-thread IDs (`EPIC-`, `ADR-`,
-  `R<n>` — see [`../../../spine/golden-thread.md`](../../../../spine/golden-thread.md)). No
-  auto-minting from content hashes or file paths (those break on moves and across repos).
-- **Cross-repo citation.** When the model lives in its own repo, downstream code and specs cite
-  these IRIs — this is the cross-repo rung of the golden thread.
-
-## Naming conventions
-
-- **Classes**: `UpperCamelCase` singular nouns (`InvoiceLine`, not `invoice_lines`).
-- **Slots / attributes**: `snake_case` (LinkML convention) — `issued_at`, `total_amount`.
-- **Enumerations**: `UpperCamelCase` type, stable permissible-value keys (never free strings — give
-  each value a `meaning:` IRI where one exists in a published vocabulary).
-- **Be consistent and intention-revealing** — the same Clean Code naming discipline as the code
-  (see `cosmic-python`). The model's names become the **ubiquitous language** (see
-  [`terminology-management.md`](terminology-management.md)).
+- **Mint a base namespace per model** you own (e.g. `https://data.meaningfy.ws/<domain>/`) and declare
+  it once. Choosing the namespace is a model-level decision, not a per-element one.
+- **Identifiers are opaque and permanent**; do not encode mutable facts (version, owner, location) into
+  the local name. Minted at authoring time, human-readable, like the other golden-thread IDs
+  (`EPIC-`, `ADR-`, `R<n>` — see [`../../../spine/golden-thread.md`](../../../spine/golden-thread.md)).
+- **Cross-repo citation.** When the model lives in its own repo, downstream code and specs cite these
+  IRIs — the cross-repo rung of the golden thread.
 
 ## Modularity
 
-- **One concern per schema file**; import smaller schemas into a top-level one (`imports:` in
-  LinkML). Avoid one monolithic file as the model grows.
-- **Separate the core domain from project-specific extensions** so a shared model (own-repo mode)
-  stays clean and consumers extend it without forking it.
-- **Mirror the bounded contexts** the architecture defines — do not let the model sprawl across
-  unrelated subdomains.
+- **One concern per schema/module**; separate the core domain from project-specific extensions so a
+  shared model stays clean and consumers extend it without forking. Mirror the bounded contexts the
+  architecture defines. (The LinkML `imports:` mechanism and per-module output are owned by
+  `linkml-engineering`.)
 
 ## Vocabulary reuse
 
-Prefer **reusing existing, published vocabularies** over inventing terms:
+Preferring published vocabularies over invented terms is a shared *principle* (see
+`modelling-conventions`). The model-level decision owned here is **which** vocabularies a given model
+aligns to — `schema.org`, Dublin Core, SKOS, FOAF, an EU reference ontology, a domain standard — and
+recording that alignment so it survives into the generated OWL. Only mint a new term when no suitable
+published one exists.
 
-- Map slots and classes onto well-known vocabularies where they fit — `schema.org`, Dublin Core
-  (`dcterms:`), SKOS, FOAF, domain standards (e.g. an EU reference ontology). Use LinkML `slot_uri`
-  / `class_uri` / `mappings` to record the equivalence.
-- Reuse signals interoperability and reduces semantic drift; only mint a new term when no suitable
-  published one exists.
-- Record the reuse explicitly so the generated OWL carries the mappings (reasoners and consumers can
-  then align data across systems).
+## The source decision — LinkML vs model2owl
 
-## LinkML vs model2owl — the source decision
-
-This is an **explicit decision point, never silently defaulted**:
+This is an **explicit decision point, never silently defaulted**, and it is owned here:
 
 | Use… | When |
 |------|------|
-| **LinkML directly** (default) | The team authors the schema in LinkML; fastest path to the four wired targets. |
-| **model2owl first** | The team models the domain in **UML**. model2owl generates LinkML artefacts (and has strong OWL/SHACL/HTML generators of its own), which then drive the LinkML generators. model2owl becomes a **prerequisite stage** of `make generate-models`. |
-| **Other OWL-first tooling** (Protégé, SHACL-first) | An existing ontology asset or a reasoning-heavy domain already lives in OWL; document the chosen tool as a named pattern and bridge to LinkML if Pydantic/JSON Schema targets are also needed. |
+| **LinkML directly** (default) | The team authors the schema in LinkML; fastest path to the wired targets. |
+| **model2owl first** | The team models the domain in **UML**. model2owl generates LinkML artefacts (and has strong OWL/SHACL/HTML generators of its own), which then drive the LinkML generators. model2owl becomes a **prerequisite stage** of generation. |
+| **Other OWL-first tooling** (Protégé, SHACL-first) | An existing ontology asset already lives in OWL; document the chosen tool as a named pattern and bridge to LinkML if Pydantic/JSON Schema targets are also needed. |
 
-We do **not** abstract these behind a source-adapter interface (YAGNI). Each is a documented,
-named pattern; pick one consciously per project and wire only that one. See the
-model2owl-as-prerequisite flow in [`generators.md`](generators.md).
+We do **not** abstract these behind a source-adapter interface (YAGNI). Pick one consciously per project.
+Once chosen, the LinkML execution (deriving, authoring, generating) is owned by
+[`../../linkml-engineering/SKILL.md`](../../linkml-engineering/SKILL.md); configuring model2owl itself is
+a future dedicated skill.

@@ -1,0 +1,71 @@
+// Blue (User-goal-level) use case template — Cockburn "Writing Effective Use Cases".
+// A Blue use case REALISES a White one: it shows HOW the system fulfils the value through
+// interactions between internal responsibilities. Still technology-agnostic, but it makes
+// responsibility boundaries, idempotency rules, and failure paths explicit for implementers.
+// Numbering: UC-B<n>.<m>, where <n> is the parent White use case. Anchor: [#uc-b<n>-<m>].
+//
+// DRY DISCIPLINE (the whole point of the White/Blue split): the shared contract lives in the
+// White use case. A Blue page cross-references its White parent and states ONLY the realisation
+// deltas — it does NOT restate the shared guarantees, scenarios, or business rules.
+
+[#uc-b<n>-<m>]
+= UC-B<n>.<m>: <Realisation goal — the concrete interaction being described>
+
+*Use Case Level:* Blue (User-goal) +
+*Primary Actor:* <same primary actor as the White parent, or the system where a large UC is split> +
+*Supporting Actors:* <internal components participating in the realisation, each with a one-line role — e.g. Request Registry (idempotency store); Decision Store (latest assignment); Messaging Middleware; downstream engine> +
+*Scope:* <system boundary — narrowed to the realising surface, e.g. "ERSys — Public API">
+
+This Blue use case refines xref:<path>/ucw<n>.adoc#uc-w<n>[UC-W<n>: <Name>]. The shared
+contract — <name the shared elements: guarantees, scenarios, business rules> — is stated in
+UC-W<n> and is not restated here. This page states only the realisation specifics of <this path>.
+
+== Stakeholders and Interests
+
+* <Only the interests that this realisation path adds or sharpens beyond the White parent.>
+
+== Brief Description
+
+<How the system realises the White contract over this specific surface: which internal
+component does what, in what order, across which responsibility boundaries. Reference the
+relevant contract/interface artefacts (OpenAPI/AsyncAPI/LinkML) rather than inlining schemas.>
+
+== Preconditions
+
+* <Realisation-specific preconditions (which stores/registries must exist, required fields).>
+
+== Trigger
+
+<The concrete triggering interaction for this path.>
+
+== Success Guarantee (Postconditions)
+
+The success and minimal guarantees, and the main and alternate scenarios, are those of
+xref:<path>/ucw<n>.adoc#uc-w<n>[UC-W<n>] and are not restated here. This Blue path adds only:
+
+. <Realisation delta — e.g. "the request is registered in the Request Registry and correlated by (…)">.
+. <Realisation delta — e.g. how idempotency is enforced at this boundary.>
+
+== Minimal Guarantees (On Failure)
+
+As stated in xref:<path>/ucw<n>.adoc#uc-w<n>[UC-W<n>]. <Add Blue-specific failure deltas, or state "No additional Blue-specific minimal guarantees apply.">
+
+== Extensions
+
+These extensions are realisation-specific deltas over the UC-W<n> contract:
+
+1a. <Invalid request> — <handling with the concrete error code>. +
+2a. <Realisation of a White rule, e.g. idempotency conflict → IDEMPOTENCY_CONFLICT>. +
+3a. <Boundary-specific concern, e.g. rate limit exceeded>.
+
+== Special Requirements
+
+* <Responsibility-boundary and correlation rules made explicit for implementers.>
+
+== Technology and Data Variations
+
+<Configuration-driven formats; interaction/message types defined in the referenced contract.>
+
+== Frequency of Occurrence
+
+<As the White parent, or narrowed to this path.>
