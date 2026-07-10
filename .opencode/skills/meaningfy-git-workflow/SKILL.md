@@ -28,18 +28,33 @@ committing/pushing/opening PRs to the external `commit-commands` skill.
 
 ## Branch naming
 
-Use an extended, referenceable name:
+**GitFlow** is the standard branching model. Branch names are **lowercase + hyphens only** — no
+underscores, no spaces, and **never** a commit-type prefix (`feat/`, `fix/`, `chore/`, `rel/`, …):
+those belong to *commit messages*, not branches.
 
-```
-<type>/<ticket-id>/<short-label>      e.g. feat/PROJ-123/credit-notes
-```
+**Permanent branches** (never delete, never commit directly):
 
-Prefer the ticketing system's branch-name feature (e.g. Jira) to generate it.
+- `main` — production history. We use `main`; `master` is an accepted alias. Every merge is tagged
+  `vX.Y.Z`.
+- `develop` — integration branch for the next release. A repo always has both.
+
+**Temporary branches** (delete after merge; merge with `--no-ff` to preserve grouping):
+
+| Prefix | Branch off | Merge back into | Name |
+|--------|-----------|-----------------|------|
+| `feature/` | `develop` | `develop` | `feature/<descriptor>` or `feature/<author>/<ticket-id>` (e.g. `feature/login-ui`, `feature/ec/PROJ-123`) |
+| `release/` | `develop` | `main` **and** `develop` | `release/<version>` (e.g. `release/1.2.0`) |
+| `hotfix/`  | `main`    | `main` **and** `develop` | `hotfix/<version>` or `hotfix/<issue>` (e.g. `hotfix/1.2.1`) |
+
+Prefer the ticketing system's branch-name feature (e.g. Jira) to generate a `feature/` name. The
+`release/` + `hotfix/` *lifecycle* (cut-from, back-merge, tagging) is owned by
+[`meaningfy-release`](../meaningfy-release/SKILL.md) — this skill owns only the branch *shape*.
 
 ## Workflow
 
-- **GitFlow** for public/client projects (or as the client dictates); a **simpler** flow for
-  internal projects where GitFlow ceremony would hurt throughput.
+- **GitFlow is the model for every project** — always a `develop` and a `main`/`master`, with
+  `feature/` / `release/` / `hotfix/` supporting branches (above). A client may dictate extra
+  process, but the branch model and names are the Meaningfy default.
 - On a shared feature branch, use `git pull --rebase` (not plain `pull`).
 - Use **rebase** to incorporate base-branch changes and keep history clean — **unless** the
   changes are numerous, in which case **merge**. Once you merge into a branch, do not rebase it

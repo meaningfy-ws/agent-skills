@@ -363,7 +363,7 @@ def duplicate_fact_candidates(repo: Path) -> list[str]:
     signatures = {
         "layer rules": r"models/.*adapters/.*services/.*entrypoints",
         "red-green-refactor": r"red.?green.?refactor",
-        "branch naming pattern": r"<type>/<ticket-id>/<short-label>",
+        "branch naming pattern": r"feature/.{0,120}release/.{0,120}hotfix/",
         "80% coverage": r"\b80%\s+(test\s+)?coverage",
     }
     out: list[str] = []
