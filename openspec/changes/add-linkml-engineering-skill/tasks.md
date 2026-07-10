@@ -58,12 +58,12 @@
   dual-CLI drift, version-sync); confirm the deferred-scope scenario holds (satisfies "dual-CLI parity
   and deferred scope").
 - [x] 4.4 MINOR-bump root `VERSION`; confirm sync to `marketplace.json`/`opencode.json`.
-- [ ] 4.5 On the proper release branch, cut a new repository release including all
+- [x] 4.5 On the proper release branch, cut a new repository release including all
   `meaningfy-architecture` skill changes (final stage, before commit/push).
 
 ## Roadmap
 
-- [x] 1.1 · [x] 1.2 · [x] 1.3 · [x] 1.4 · [x] 2.1 · [x] 2.2 · [x] 2.3 · [x] 2.4 · [x] 2.5 · [x] 2.6 · [x] 3.1 · [x] 3.2 · [x] 3.3 · [x] 3.4 · [x] 4.1 · [x] 4.2 · [x] 4.3 · [x] 4.4 · [ ] 4.5
+- [x] 1.1 · [x] 1.2 · [x] 1.3 · [x] 1.4 · [x] 2.1 · [x] 2.2 · [x] 2.3 · [x] 2.4 · [x] 2.5 · [x] 2.6 · [x] 3.1 · [x] 3.2 · [x] 3.3 · [x] 3.4 · [x] 4.1 · [x] 4.2 · [x] 4.3 · [x] 4.4 · [x] 4.5
 
 ## Verification
 
