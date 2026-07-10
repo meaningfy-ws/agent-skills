@@ -1,0 +1,83 @@
+// White (Summary-level) use case template — Cockburn "Writing Effective Use Cases".
+// A White use case states the CONTRACT: the value the system guarantees to an actor,
+// under which conditions, with which explicit limitations. Technology-agnostic.
+// Copy into an Antora page; keep section names, order, and heading levels exactly.
+// Numbering: UC-W<n>. Anchor: [#uc-w<n>]. One White may be refined by several Blue.
+// Omit any section that has no content — but when present, use this name and position.
+
+[#uc-w<n>]
+= UC-W<n>: <Goal phrased as an active verb + object>
+
+*Use Case Level:* White (Summary) +
+*Primary Actor:* <the actor pursuing the goal — a glossary preferred term> +
+*Scope:* <the system or boundary under design>
+
+== Stakeholders and Interests
+
+* <Stakeholder> requires <what they need and the guarantee they rely on>.
+* <Downstream/operator stakeholder> requires <predictability, idempotency, separation of concerns…>.
+
+== Brief Description
+
+<The goal, the value, and the narrative of the guaranteed behaviour — including any
+system-of-interest scoping and the standing rules (authority, time budgets, identity
+semantics) that always hold. No implementation detail.>
+
+== Preconditions
+
+* <What must hold before the use case may begin (required correlation fields, payload conformance…).>
+
+== Trigger
+
+<The event that initiates the use case. Omit if identical to step 1 of the main scenario.>
+
+== Success Guarantee (Postconditions)
+
+For every valid request/interaction:
+
+. <Guarantee 1 — stated as an observable outcome, not a step.>
+. <Guarantee 2 — e.g. a canonical result is returned within the agreed budget.>
+. <Eventual-consistency or lineage guarantee, if any.>
+
+== Minimal Guarantees (On Failure)
+
+. If <invalid input>, the system returns an explicit, typed error.
+. If <a critical dependency fails within the budget>, the system returns an explicit error.
+. <Degraded-mode guarantee: what still holds when the happy path cannot complete.>
+
+== Main Success Scenario
+
+. <Actor does X.>
+. <System validates / registers.>
+. <System performs the core interaction.>
+. <System returns the guaranteed result and records what it must record.>
+
+== Alternate Scenarios
+
+<Named alternative flows that still fulfil the goal (e.g. a degraded but valid path).>
+
+. <Numbered flow.>
+
+== Extensions
+
+<Step-keyed exception and variation handling. Format: `<step><letter>. <condition> — <handling>.`>
+
+1a. <Invalid request> — <handling>. +
+2a. <Idempotent replay> — <handling>. +
+2b. <Idempotency conflict> — <handling>.
+
+== Special Requirements
+
+* <Cross-cutting constraints that qualify the contract: idempotency, authority, lineage.>
+
+== Notes and Business Rules
+
+* <Standing rules that qualify interpretation of the use case.>
+
+== Technology and Data Variations
+
+<Deployment- or format-dependent variation points, stated abstractly.>
+
+== Frequency of Occurrence
+
+<Expected invocation rate — drives capacity and NFRs.>

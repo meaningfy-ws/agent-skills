@@ -1,6 +1,6 @@
 ---
 name: conceptual-modelling
-description: Build and evolve a living, representation-agnostic conceptual model for a product (programming) project, and generate code/contracts from it deterministically. Use to model the domain, write a LinkML schema, set up a conceptual model, generate Pydantic/JSON Schema/OWL/SHACL from the model (`make generate-models`), manage ontology URIs/IRIs and vocabulary reuse, or run terminology/definitions management. Trigger on "model the domain", "write a LinkML schema", "generate models", "generate Pydantic/OWL/SHACL from the model", "set up conceptual model", "ontology / terminology management", "ubiquitous language glossary". Conditional: applies to product-development repos that build software; a doc-only/non-product repo does not need it.
+description: Build and evolve a living, representation-agnostic conceptual model for a product (programming) project — the domain's entities, attributes, relationships, and meaning — and choose how it is rendered. Use to model the domain, do conceptual data modelling in UML, run ontology-engineering at the concept level (stable-IRI policy, vocabulary reuse), decide the model *source* (LinkML directly vs model2owl-first), set up a conceptual model, or run terminology/definitions/glossary management. Trigger on "model the domain", "conceptual/UML data model", "set up conceptual model", "which model source", "ontology/terminology management", "ubiquitous language glossary". For the LinkML craft itself (authoring, generation, gates) see linkml-engineering; for generic modelling conventions see modelling-conventions. Conditional: applies to product-development repos that build software; a doc-only/non-product repo does not need it.
 license: Apache 2.0
 metadata:
   category: engineering
@@ -60,34 +60,24 @@ Choosing the source is an **explicit decision point — never silently defaulted
   chosen one as a named pattern.
 
 We deliberately do **not** build a source-adapter abstraction (YAGNI) — alternatives are documented
-as named patterns, not wired behind an interface. See
-[`references/generators.md`](references/generators.md) and
-[`references/ontology-practices.md`](references/ontology-practices.md).
+as named patterns, not wired behind an interface. The **source decision** and the concept-level
+ontology policy are owned here (see [`references/ontology-practices.md`](references/ontology-practices.md));
+the LinkML craft that executes on the chosen source is owned by `linkml-engineering`.
 
-## Deterministic multi-target generation
+## Deterministic multi-target generation (the concept)
 
-From the (LinkML) source, generate multiple targets deterministically through `make generate-models`.
-Generation is **outside the LLM path** — reproducible, diffable, CI-checkable (regenerate and fail on
-drift, exactly like other schema-based codegen).
-
-**Wired and tested — first-class (the semantic core Meaningfy sells):**
-
-| Target | What it is |
-|--------|-----------|
-| **Python (Pydantic)** | Typed domain classes consumed by the code |
-| **JSON Schema** | Validation / interchange contract |
-| **OWL** | Formal ontology (semantics, reasoning) |
-| **SHACL** | Shape constraints for RDF data validation |
-
-**Documented as patterns — enable on demand (do not gold-plate all of these):** TypeScript types,
-SQL DDL / SQLAlchemy ORM, Markdown/HTML docs, and authoring a **custom generator**. See
-[`references/generators.md`](references/generators.md) for the `make generate-models` wiring, the
-model2owl-as-prerequisite flow, and the custom-generator recipe.
+From the chosen source, code, contracts, and documentation are generated **deterministically and
+outside the LLM path** — reproducible, diffable, CI-checkable. This skill owns *that this is how the
+model becomes artefacts*; it does **not** own the LinkML authoring, the generator wiring, the custom
+templates, or the quality gates — those belong to
+[`../linkml-engineering/SKILL.md`](../linkml-engineering/SKILL.md). The semantic core (Pydantic, JSON
+Schema, OWL, SHACL) and the enable-on-demand targets are catalogued there; see
+[`references/generators.md`](references/generators.md) for the pointer.
 
 **The seam to `cosmic-python`.** The model **owns the contract**; the generated Pydantic/JSON Schema
 *is* the contract. A service's `entrypoints/api` **consumes** the generated contract — it does not
-redefine the domain. This is the same `make generate-models` bridge `cosmic-python` and `architecture`
-already name; this skill owns what sits on the source side of it.
+redefine the domain. This skill owns the source side of that seam; `linkml-engineering` owns the
+generation that crosses it.
 
 ## The craft around the model
 
@@ -104,11 +94,19 @@ A model is more than a schema. Two adjacent practices are part of the discipline
 ## Boundary & Related Skills
 
 **This skill OWNS:** the living conceptual model (representation-agnostic source of domain truth);
-deterministic multi-target generation from it (`make generate-models`); ontology engineering
-(stable URIs/IRIs, naming, modularity, vocabulary reuse); and terminology / definitions / glossary
-management (ubiquitous language).
+conceptual data modelling in UML; the concept-level ontology policy (stable-IRI *policy*, modularity,
+vocabulary-reuse *principle*); the **model-source decision** (LinkML-direct vs model2owl-first); and
+terminology / definitions / glossary management (ubiquitous language).
+
+**This skill REUSES:**
+- Representation-agnostic modelling craft (reusable-property and URI-everywhere *principles*, naming,
+  anti-patterns, guardrails) → [`../modelling-conventions/SKILL.md`](../modelling-conventions/SKILL.md).
+  This skill applies those conventions; it does not restate them.
 
 **This skill DELEGATES:**
+- The LinkML craft — authoring, generation, custom templates, quality gates, per-module output →
+  [`../linkml-engineering/SKILL.md`](../linkml-engineering/SKILL.md). This skill picks the source and
+  owns the model; `linkml-engineering` executes the LinkML.
 - System/solution architecture — C4 levels, ADRs, the contract-first *order of artifacts* →
   [`../architecture/SKILL.md`](../architecture/SKILL.md). Architecture authors *which* contracts
   exist; this skill owns the domain model that backs them.
@@ -121,4 +119,4 @@ management (ubiquitous language).
 
 **Conditional:** product-development (programming) projects only — see the Overview.
 
-**Related:** `architecture`, `cosmic-python`.
+**Related:** `modelling-conventions`, `linkml-engineering`, `architecture`, `cosmic-python`.

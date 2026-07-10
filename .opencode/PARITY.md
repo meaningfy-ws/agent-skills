@@ -1,6 +1,6 @@
 # Parity report
 
-> Generated from VERSION `2.7.3` — do not hand-edit.
+> Generated from VERSION `2.8.0` — do not hand-edit.
 
 | Artifact | Claude | opencode | Gaps |
 |---|---|---|---|
@@ -19,9 +19,11 @@
 | `skill:executive-communication` | ✓ | ✓ | 0 |
 | `skill:explanatory-writing` | ✓ | ✓ | 0 |
 | `skill:guardrails` | ✓ | ✓ | 0 |
+| `skill:linkml-engineering` | ✓ | ✓ | 0 |
 | `skill:meaningfy-code-review` | ✓ | ✓ | 0 |
 | `skill:meaningfy-git-workflow` | ✓ | ✓ | 0 |
 | `skill:meaningfy-release` | ✓ | ✓ | 0 |
+| `skill:modelling-conventions` | ✓ | ✓ | 0 |
 | `skill:project-setup` | ✓ | ✓ | 0 |
 | `skill:proposal-writing` | ✓ | ✓ | 0 |
 | `skill:semantic-consulting-coach` | ✓ | ✓ | 0 |

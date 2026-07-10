@@ -33,7 +33,7 @@ Bundles are organised by the **role (hat) you wear** — install `meaningfy-core
 |--------|--------|-----------------|
 | **meaningfy-core** | **technical-writing** · **explanatory-writing** · **meaningfy-git-workflow** · **guardrails** | …do anything (cross-cutting basics) |
 | **meaningfy-consulting** | **semantic-consulting-coach** · **decision-package** · **proposal-writing** · **estimation** · **executive-communication** | …do advisory / front-of-funnel work |
-| **meaningfy-architecture** | **architecture** · **conceptual-modelling** | …design systems or model a domain |
+| **meaningfy-architecture** | **architecture** · **conceptual-modelling** · **modelling-conventions** · **linkml-engineering** | …design systems or model a domain |
 | **meaningfy-building** | **epic-planning** · **spec-stewardship** · **clarity-gate** · **bdd-gherkin** · **meaningfy-code-review** · **cosmic-python** · **project-setup** · **ci-cd-delivery** · **meaningfy-release** | …build software with the spine |
 
 Thin **agent** wrappers live in [`agents/`](agents/) — `epic-planner`, `implementer`,
@@ -110,7 +110,8 @@ the exact split): [`docs/environment-setup.md`](docs/environment-setup.md).
 | Stand up a new repo | `project-setup` skill → scaffolds layout, tooling, tests, docs, CI, and the spine |
 | Build one epic | the loop below (epic-planner → bdd-gherkin → implementer → code-reviewer) |
 | Win / scope a client engagement | `semantic-consulting-coach` (think it through) → `decision-package` (produce it) → `proposal-writing` + `estimation` |
-| Model a domain | `conceptual-modelling` (LinkML → Pydantic/OWL/SHACL) |
+| Model a domain | `conceptual-modelling` (the living model + source decision) · `modelling-conventions` (shared craft) |
+| Author LinkML / generate typed artefacts | `linkml-engineering` (LinkML → Pydantic/OWL/SHACL, custom templates, gates) |
 | Design a system | `architecture` (C4, ADRs, contracts) |
 | Write a board paper / client note | `executive-communication` |
 | Write docs / a README | `technical-writing` |
