@@ -99,18 +99,57 @@ interpret `.opencode/bundles.json` itself.
 
 Bundle membership and the package version are generated or checked against the root `VERSION`.
 
-## 2. Root binding
+## 2. Scope global skills per project
+
+opencode has no per-project UI control for enabling or disabling globally installed skills. Configure skill permissions in the project's `opencode.json` instead. Restricting irrelevant skills reduces agent selection noise and prevents unrelated instructions from being loaded into a project.
+
+Two approaches:
+
+* **Blacklist — allow all except selected skills.** Use when most global skills are relevant:
+
+  ```
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+      "skill": {
+        "*": "allow",
+        "explanatory-writing": "deny",
+        "technical-writing": "deny"
+      }
+    }
+  }
+  ```
+
+* **Allowlist — deny all except selected skills.** Use when the project needs only a small, known subset:
+
+  ```
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+      "skill": {
+        "*": "deny",
+        "guardrails": "allow",
+        "meaningfy-git-workflow": "allow"
+      }
+    }
+  }
+  ```
+
+Rules are evaluated in order and the last matching rule wins, so place the catch-all `*` rule before specific skill names. These settings affect only the current project; the global skills remain installed and available to other projects.
+
+
+## 3. Root binding
 
 OpenCode reads **`AGENTS.md`** natively — it is the canonical, CLI-agnostic operating manual. No
 pointer file is required.
 
-## 3. MCP servers
+## 4. MCP servers
 
 Install each server into `opencode.json` under `mcp`; keep secrets in environment variables. The
 per-tool OpenCode shapes are in [`mcp-setup.md`](mcp-setup.md). Every referenced MCP server's
 transport maps to OpenCode; see [`compatibility.md`](compatibility.md). No MCP config is committed.
 
-## 4. Spine commands
+## 5. Spine commands
 
 ```bash
 openspec update --tools opencode    # registers opsx-propose, opsx-apply, … for OpenCode
@@ -119,7 +158,7 @@ openspec update --tools opencode    # registers opsx-propose, opsx-apply, … fo
 The spine commands are delegated to this step — they are not part of the generated tree. The
 `/opsx:<id>` form on Claude is `opsx-<id>` here.
 
-## 5. Hooks (optional, via project-setup)
+## 6. Hooks (optional, via project-setup)
 
 `project-setup` writes the shared Git/CI hooks once and the OpenCode agent-hook bindings as plugins
 under `.opencode/plugin/`. Intent inventory and binding shapes:
