@@ -44,6 +44,23 @@ def test_skill_passthrough_copies_body(tmp_path):
     assert tree[".opencode/skills/foo/SKILL.md"] == b"---\nname: foo\ndescription: d\n---\nbody\n"
 
 
+def test_skill_pycache_excluded(tmp_path):
+    """A skill may ship importable Python assets; its bytecode cache must never
+    be mirrored — it's a local build artifact, not a source file (found via
+    linkml-engineering's vendored generators tripping this for the first time:
+    no prior skill shipped executable Python, so this exclusion never mattered
+    before)."""
+    repo = _make_repo(tmp_path, skills={"foo": "---\nname: foo\ndescription: d\n---\nbody\n"})
+    pycache = repo / "skills" / "foo" / "__pycache__"
+    pycache.mkdir()
+    (pycache / "mod.cpython-314.pyc").write_bytes(b"\x00")
+    (repo / "skills" / "foo" / "mod.py").write_text("x = 1\n", encoding="utf-8")
+    tree, gaps = gen.map_skill(repo, "foo")
+    assert gaps == []
+    assert ".opencode/skills/foo/mod.py" in tree
+    assert not any("__pycache__" in path or path.endswith(".pyc") for path in tree)
+
+
 def test_skill_missing_frontmatter_field_fails(tmp_path):
     repo = _make_repo(tmp_path, skills={"foo": "---\nname: foo\n---\nbody\n"})
     with pytest.raises(ValueError, match="missing 'description'"):

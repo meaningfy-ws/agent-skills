@@ -1,0 +1,124 @@
+id: http://meaningfy.ws/ontology/hulubul/service
+name: hulubul_service
+title: Hulubul Service / Offering Model
+description: >-
+  The standing-capability layer of Hulubul V1. A TransportService is a
+  request-agnostic offering published by a transporter agent, declaring what it
+  carries and its base (pickup) and destination (delivery) service areas, each a
+  ServiceOffer pairing an Area with an orientative Frequency. It carries no link
+  to any DeliveryRequest.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+  - hulubul_spatial
+
+classes:
+
+  TransportService:
+    class_uri: hlb:TransportService
+    description: >-
+      A standing, request-agnostic offering published by a transporter agent,
+      declaring service types and its base and destination service areas.
+    aliases: [Transporter Profile, Service Offering, Offer Profile]
+    slots:
+      - id
+      - description
+    slot_usage:
+      description:
+        required: true
+    attributes:
+      serviceTitle:
+        slot_uri: hlb:serviceTitle
+        description: Short title of the offering.
+        required: true
+      serviceType:
+        slot_uri: hlb:serviceType
+        description: What the service carries (people and/or parcels).
+        range: ServiceType
+        multivalued: true
+        required: true
+      hasBaseArea:
+        slot_uri: hlb:hasBaseArea
+        description: >-
+          Pickup footprint — areas (with frequency) where the transporter can
+          collect.
+        range: ServiceOffer
+        multivalued: true
+        required: true
+        inlined: false
+      hasDestinationArea:
+        slot_uri: hlb:hasDestinationArea
+        description: >-
+          Delivery reach — areas (with frequency) the transporter serves as
+          destinations.
+        range: ServiceOffer
+        multivalued: true
+        required: true
+        inlined: false
+
+  ServiceOffer:
+    class_uri: hlb:ServiceOffer
+    description: >-
+      A served area paired with an orientative frequency. The same shape serves
+      both base and destination offers; direction is given by which association
+      (hasBaseArea vs hasDestinationArea) it sits under, not by a flag. Given an
+      id (graph node) because it carries an outgoing edge to Area.
+    aliases: [Service Area Offer, Area Offer, ServiceLocationSchedule]
+    slots:
+      - id
+      - description
+      - withinArea
+    slot_usage:
+      description:
+        required: true
+      withinArea:
+        required: true  # [1]: the served administrative area.
+    attributes:
+      withFrequency:
+        slot_uri: hlb:withFrequency
+        description: How often the transporter is in/through the area (orientative).
+        range: Frequency
+        required: true
+
+enums:
+
+  ServiceType:
+    enum_uri: hlb:ServiceType
+    description: What a transport service carries.
+    permissible_values:
+      peopleTransport:
+        meaning: hlb:peopleTransport
+        description: Carries people.
+      parcelTransport:
+        meaning: hlb:parcelTransport
+        description: Carries parcels.
+
+  Frequency:
+    enum_uri: hlb:Frequency
+    description: >-
+      Orientative coarse human-coordination label for how often a transporter
+      serves an area — not a timetable/RRULE.
+    permissible_values:
+      daily:
+        meaning: hlb:daily
+        description: About once a day.
+      weekly:
+        meaning: hlb:weekly
+        description: About once a week.
+      biweekly:
+        meaning: hlb:biweekly
+        description: >-
+          Presumed about twice a week (fortnightly covers every-two-weeks).
+          Ambiguous in the source — confirm; twiceWeekly would disambiguate.
+      fortnightly:
+        meaning: hlb:fortnightly
+        description: About once every two weeks.
+      monthly:
+        meaning: hlb:monthly
+        description: About once a month.

@@ -30,7 +30,14 @@ that adds only Claude-specific guidance.
 
 ## How to maintain / extend the catalogue
 
-- **Adding a new skill** — follow [`spec/CREATING_SKILLS.md`](spec/CREATING_SKILLS.md).
+- **Adding a new skill** — follow [`spec/CREATING_SKILLS.md`](spec/CREATING_SKILLS.md), **then run
+  `make skill-inventory`** to regenerate [`docs/skill-inventory.md`](docs/skill-inventory.md) (the
+  map + per-bundle tables). This part is manual — you (or the agent) must run it after adding,
+  renaming, re-bundling, re-describing, or re-categorising a skill. Forgetting is caught
+  automatically, not silently: `tests/test_skill_inventory.py` fails `make test`/`make validate` if
+  the committed file has drifted from a fresh regeneration. A new skill also needs a `PURPOSE_OF`
+  entry in [`tools/skill_inventory.py`](tools/skill_inventory.py) — the one hand-curated mapping in
+  an otherwise fully generated file; generation itself raises loudly if a skill is missing one.
 - **Assigning to a bundle** — bundles are declared in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
 - **Boundary / related-skills** — every skill's frontmatter must declare its `boundary` and list
   any `related_skills`. This keeps triggers crisp and prevents collisions with external neighbours.

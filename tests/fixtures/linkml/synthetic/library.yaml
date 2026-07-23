@@ -1,0 +1,144 @@
+id: http://meaningfy.ws/ontology/test-fixtures/library
+name: library
+title: Synthetic Library Fixture Schema
+description: >-
+  A small, hand-authored LinkML schema for testing the Neo4j-targeting custom
+  generators (skills/linkml-engineering/assets/generators/). Deliberately exercises,
+  in one small schema: an abstract base class with concrete subclasses (Media ->
+  Book, DVD); a relationship whose range is that abstract class, restricted by
+  any_of (Loan.borrowedItem); a required+multivalued scalar slot (Book.authorNames);
+  a required+multivalued enum slot (Loan.returnCondition); a value object with no
+  identifier reached by a relationship (Book.hasDimensions -> Dimensions); a
+  self-referencing relationship (Category.partOf -> Category); and a slot_usage
+  cardinality override (partOf required on Shelf, optional on Category). Not a
+  real domain model — a test fixture only.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  lib: http://meaningfy.ws/ontology/test-fixtures/library/
+  linkml: https://w3id.org/linkml/
+default_prefix: lib
+default_range: string
+
+imports:
+  - linkml:types
+
+slots:
+  id:
+    description: Graph node identity for this instance.
+    identifier: true
+    range: uriorcurie
+    required: true
+
+  name:
+    description: Human-readable name.
+    range: string
+
+  partOf:
+    description: The broader grouping this belongs to (reflexive on Category).
+    range: Category
+    inlined: false
+
+classes:
+
+  Media:
+    abstract: true
+    description: Abstract root of the lendable-media hierarchy.
+    slots:
+      - id
+      - name
+
+  Book:
+    is_a: Media
+    description: A physical book.
+    attributes:
+      isbn:
+        description: International Standard Book Number.
+        required: true
+        annotations:
+          neo4j_index: true
+      authorNames:
+        description: Names of the book's authors.
+        multivalued: true
+        required: true
+      hasDimensions:
+        description: Physical dimensions of this book.
+        range: Dimensions
+
+  DVD:
+    is_a: Media
+    description: A physical DVD.
+    attributes:
+      durationMinutes:
+        description: Runtime in minutes.
+        range: integer
+
+  Dimensions:
+    description: >-
+      A physical size — a value object (no identifier), reached by a relationship
+      rather than promoted to its own graph node in the Cypher-constraint sense.
+    attributes:
+      widthCm:
+        description: Width in centimetres.
+        range: float
+        required: true
+      heightCm:
+        description: Height in centimetres.
+        range: float
+        required: true
+
+  Category:
+    description: >-
+      A classification grouping, nested via the reflexive `partOf` relationship.
+      Root categories have no parent (partOf is optional here).
+    slots:
+      - id
+      - name
+      - partOf
+    slot_usage:
+      partOf:
+        required: false
+
+  Shelf:
+    description: >-
+      A physical shelf, always filed under exactly one category (partOf is
+      required here — a slot_usage override of the same top-level slot used
+      reflexively by Category).
+    slots:
+      - id
+      - partOf
+    slot_usage:
+      partOf:
+        required: true
+
+  Loan:
+    description: >-
+      A loan of one lendable item, restricted to Book or DVD even though the
+      underlying slot range is the abstract Media class.
+    slots:
+      - id
+    attributes:
+      borrowedItem:
+        description: The item on loan — a Book or a DVD, never a bare Media.
+        range: Media
+        required: true
+        any_of:
+          - range: Book
+          - range: DVD
+      returnCondition:
+        description: Condition of each returned unit (at least one entry required).
+        range: ConditionStatus
+        multivalued: true
+        required: true
+
+enums:
+
+  ConditionStatus:
+    description: Condition of a returned loaned item.
+    permissible_values:
+      good:
+        description: No visible damage.
+      damaged:
+        description: Visible damage but usable.
+      lost:
+        description: Not returned.
