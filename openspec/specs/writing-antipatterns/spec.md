@@ -76,9 +76,10 @@ SHALL be documented as distinct entries.
 
 ### Requirement: Every writing-family skill cross-references without restating
 
-`technical-writing`, `explanatory-writing`, `executive-communication`, `proposal-writing`,
-`decision-package`, `architecture`, and `semantic-consulting-coach` SHALL each carry one
-`Related:` reference to `writing-antipatterns` and SHALL NOT copy any antipattern content inline.
+Every writing-family skill SHALL carry one `Related:` reference to `writing-antipatterns` and
+SHALL NOT copy any antipattern content inline. The family is `technical-writing`,
+`explanatory-writing`, `executive-communication`, `proposal-writing`, `decision-package`,
+`architecture`, and `semantic-consulting-coach`.
 
 #### Scenario: A writing-family skill's boundary section is audited
 
