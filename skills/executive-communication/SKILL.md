@@ -234,4 +234,4 @@ the language is plain, with no em dash and no throat-clearing.
 **Owns:** the persuasive-communication method — Governing Thought, SCQA, the Minto pyramid, answer-first
 structure, and the Meaningfy company voice (`references/company-voice.md`).
 **Delegates:** spec/EPIC readiness → `clarity-gate`; doc prose mechanics → `technical-writing`.
-**Related:** `proposal-writing`, `decision-package`, `semantic-consulting-coach`, `technical-writing`, `explanatory-writing`.
+**Related:** `proposal-writing`, `decision-package`, `semantic-consulting-coach`, `technical-writing`, `explanatory-writing`, `writing-antipatterns` (Decision/Decision-record genre failure modes).

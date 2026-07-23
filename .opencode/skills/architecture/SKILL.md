@@ -14,7 +14,7 @@ Assist users in developing rigorous system architecture models through **contrac
 
 **This skill does NOT own** code structure inside a service (layers, SOLID, layer-tests, CI) — that is the **`cosmic-python`** skill — and it does NOT own the **living conceptual model** (that is **[`conceptual-modelling`](../conceptual-modelling/SKILL.md)**) or the **LinkML craft** that generates the typed artefacts — authoring, `make generate-models`, OWL/SHACL/Pydantic (that is **[`linkml-engineering`](../linkml-engineering/SKILL.md)**). The seams: architecture authors the *contract* (OpenAPI/AsyncAPI/LinkML as a notation); `conceptual-modelling` owns the *living model* and picks its source; `linkml-engineering` executes the LinkML and generates the artefacts; `cosmic-python`'s `entrypoints/api` *consumes* the generated contract. When a request is about how to organise Python code, defer to `cosmic-python`; about modelling the domain, defer to `conceptual-modelling`; about authoring LinkML or generating model artefacts, defer to `linkml-engineering`; when it is about system topology, services, or contracts, stay here.
 
-**Related:** `cosmic-python` (code structure), `stream-coding` (doc-first delivery method), `epic-planning` (turning a Work Shape into an implementation spec).
+**Related:** `cosmic-python` (code structure), `stream-coding` (doc-first delivery method), `epic-planning` (turning a Work Shape into an implementation spec), `writing-antipatterns` (Decision-record/Contract genre failure modes for ADRs and contracts; this skill's own `Smell:`/`Fix:` diagram antipatterns are a separate, model-structure axis, cited not restated).
 
 ## Final Deliverables
 

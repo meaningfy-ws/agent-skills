@@ -243,4 +243,4 @@ propose solutions. Do not structure yet. Just ask.
 modes (Exploration / Alignment / Synthesis).
 **Delegates:** persuasive framing/voice → `executive-communication`; the paid Decision Package deliverable
 → `decision-package`; proposal/SoW authoring → `proposal-writing`; effort/sequencing → `estimation`.
-**Related:** `decision-package`, `proposal-writing`, `executive-communication`, `estimation`.
+**Related:** `decision-package`, `proposal-writing`, `executive-communication`, `estimation`, `writing-antipatterns` (Coaching-dialogue genre failure modes — where premature structure is a defection, not craft).

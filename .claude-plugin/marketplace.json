@@ -11,12 +11,13 @@
   "plugins": [
     {
       "name": "meaningfy-core",
-      "description": "Cross-cutting basics everyone installs: clear technical writing, explanatory-writing craft, the Meaningfy git/PR workflow, and agentic guardrails",
+      "description": "Cross-cutting basics everyone installs: clear technical writing, explanatory-writing craft, the writing antipatterns catalogue, the Meaningfy git/PR workflow, and agentic guardrails",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/technical-writing",
         "./skills/explanatory-writing",
+        "./skills/writing-antipatterns",
         "./skills/meaningfy-git-workflow",
         "./skills/guardrails"
       ]
