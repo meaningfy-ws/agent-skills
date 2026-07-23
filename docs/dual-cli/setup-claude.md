@@ -1,57 +1,117 @@
 # Setup — Claude Code
 
-Install the skillery catalogue on Claude Code. You do **not** need to read the opencode page —
-follow this one end to end. The source→CLI contract is in [`mapping.md`](mapping.md).
+Install the skillery catalogue on Claude Code, one step at a time. Follow every step in order —
+you do **not** need the opencode page. Each step is one command or one link; run it, then move on.
+The source→CLI contract behind these steps is in [`mapping.md`](mapping.md).
 
-## 1. Install bundles (marketplace)
+## Step 1 — Check your prerequisites
 
-The catalogue ships as the `meaningfy-skillery` marketplace with four role bundles. Install the
-bundle(s) for your role:
+- [Claude Code](https://docs.claude.com/claude-code) (CLI, desktop, or IDE) installed.
+- Node ≥ 18, for OpenSpec (Step 4c):
+  ```bash
+  node -v
+  ```
 
-| Bundle | For | Skills |
-|---|---|---|
-| `meaningfy-core` | everyone (writing, git, release) | 4 |
-| `meaningfy-consulting` | consulting / proposals / decisions | 5 |
-| `meaningfy-architecture` | architecture / modelling | 2 |
-| `meaningfy-building` | building / spine / review | 9 |
+## Step 2 — Add the skillery marketplace
 
 ```bash
-# add the marketplace, then install a bundle
 /plugin marketplace add meaningfy-ws/skillery
-/plugin install meaningfy-core@meaningfy-skillery
-/plugin install meaningfy-building@meaningfy-skillery   # add the bundles you need
 ```
 
-Each bundle pins the same `VERSION` (currently `2.6.1`, from the root `VERSION` file). Skills and
-agents land where Claude Code loads them; you can also drop skills into `.claude/skills/` directly.
+## Step 3 — Install the bundle(s) for your role
 
-## 2. Root binding
+Pick your role(s) from the table, then run the matching install command(s). Everyone installs
+`meaningfy-core`; add the rest only if that role is yours.
 
-`CLAUDE.md` is a thin pointer that tells the agent to read `AGENTS.md` (the canonical, CLI-agnostic
-operating manual) and adds Claude-only addenda (GitNexus rules, `.claude/` paths). Nothing to do —
-both files ship in the repo.
-
-## 3. MCP servers
-
-Install the servers you use, one by one, with secrets in environment variables. Templates and the
-per-tool `.mcp.json` shapes are in [`mcp-setup.md`](mcp-setup.md). No MCP config is committed.
-
-## 4. Spine commands
-
-The `/opsx:*` workflow commands install with the spine:
+| Bundle | Install if you… |
+|---|---|
+| `meaningfy-core` | …do anything (cross-cutting basics) — **always install this one** |
+| `meaningfy-building` | …build software with the spine |
+| `meaningfy-architecture` | …design systems or model a domain |
+| `meaningfy-consulting` | …do advisory / front-of-funnel work |
 
 ```bash
-openspec update --tools claude    # registers /opsx:propose, /opsx:apply, … for Claude
+/plugin install meaningfy-core@meaningfy-skillery
+/plugin install meaningfy-building@meaningfy-skillery   # repeat with the other bundles you need
 ```
 
-## 5. Hooks (optional, via project-setup)
+## Step 4 — Install the mandatory external dependencies
 
-When you scaffold a repo with `project-setup`, it writes the shared git/CI hooks once and the Claude
-agent-hook bindings (`settings.json`). The intent inventory and binding shapes are in
-[`../../hooks/README.md`](../../hooks/README.md) and [`../../hooks/bindings.md`](../../hooks/bindings.md).
+These are referenced by skillery's skills but are separate installs. Pinned versions and the
+full optional-dependency list live in
+[`environment-setup.md`](../environment-setup.md#2-external-dependencies) — this step only covers
+what's mandatory.
 
-## Pinned versions & gaps
+**4a. superpowers** — TDD, systematic debugging, verification-before-completion, brainstorming.
+```bash
+/plugin install superpowers@claude-plugins-official
+```
 
-- Catalogue version: `VERSION` → `2.6.1`.
-- No Claude-side capability gaps. The only recorded cross-CLI gap (`persist-before-compaction` on
-  opencode) does not affect Claude. Full list: [`compatibility.md`](compatibility.md).
+**4b. ponytail** — YAGNI / minimal-code discipline. Upstream: https://github.com/DietrichGebert/ponytail
+```bash
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+```
+
+**4c. OpenSpec** — the spine engine (`/opsx:*` commands). Upstream: https://github.com/Fission-AI/OpenSpec.
+Pinned version: [`../../spine/openspec-version.txt`](../../spine/openspec-version.txt).
+```bash
+npm i -g @fission-ai/openspec
+```
+
+**4d. stream-coding** — the documentation-first build method. Upstream:
+https://github.com/frmoretto/stream-coding (a single `SKILL.md`, not a plugin package):
+```bash
+git clone https://github.com/frmoretto/stream-coding /tmp/stream-coding
+mkdir -p ~/.claude/skills/stream-coding
+cp /tmp/stream-coding/SKILL.md ~/.claude/skills/stream-coding/SKILL.md   # adjust the source path if the repo's layout differs
+```
+
+## Step 5 — Confirm the root binding
+
+Nothing to install — both files already ship in the repo you're working in. Just confirm:
+- `CLAUDE.md` exists and points to `AGENTS.md` (the canonical, CLI-agnostic operating manual).
+- `AGENTS.md` exists alongside it.
+
+## Step 6 — Register the spine commands
+
+Run this once per repo that uses the spine:
+```bash
+openspec update --tools claude    # registers /opsx:propose, /opsx:apply, …
+```
+
+## Step 7 — Project the `meaningfy` schema into a repo
+
+Step 6 only registers the `/opsx:*` *commands* — it does not give you skillery's forked `meaningfy`
+OpenSpec schema (the templates and rules behind `openspec/config.yaml`'s `schema: meaningfy`).
+That's a **separate action**: in the target repo, ask Claude Code to run the **`project-setup`**
+skill — e.g. say *"scaffold this repo with project-setup"* or *"project the spine / set up
+openspec here"* (it's a conversational skill invocation, not a shell command, so there is no
+`/plugin`-style command for it). It then copies `openspec/schemas/meaningfy/` into the repo as a
+frozen, per-repo **pinned copy** and writes `openspec/config.yaml` to point at it. What exactly
+gets projected, and how to refresh the pinned copy later (re-run `project-setup`, review the diff,
+never silently overwritten):
+[`../../skills/project-setup/references/spine-projection.md`](../../skills/project-setup/references/spine-projection.md).
+
+## Step 8 — Optional: hooks, MCP servers, extra plugins
+
+- **Hooks** — written for you by `project-setup` when you scaffold a repo. Reference:
+  [`../../hooks/README.md`](../../hooks/README.md).
+- **MCP servers** (GitNexus, Atlassian, Google Workspace, Odoo, Neo4j, MongoDB, context7, …) —
+  install one by one, per-tool packages/links and config templates in
+  [`mcp-setup.md`](mcp-setup.md).
+- **Optional plugins** (`commit-commands`, `code-review`) — see the table in
+  [`environment-setup.md`](../environment-setup.md#2-external-dependencies).
+
+## Step 9 — Verify
+
+Run:
+```bash
+/plugin
+```
+Confirm `meaningfy-core` (and any other bundle you installed in Step 3) shows as **enabled**. Then
+confirm the spine registered by running `/opsx:propose` — it should prompt you for a change
+description rather than say the command is unknown.
+
+There are no recorded Claude-side capability gaps; if you're curious what differs on opencode, see
+[`compatibility.md`](compatibility.md).
