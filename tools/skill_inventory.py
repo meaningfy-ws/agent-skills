@@ -53,6 +53,7 @@ PURPOSE_OF: dict[str, str] = {
     "technical-writing": "Writing & Communication",
     "explanatory-writing": "Writing & Communication",
     "executive-communication": "Writing & Communication",
+    "writing-antipatterns": "Writing & Communication",
     # Modelling & Architecture
     "architecture": "Modelling & Architecture",
     "conceptual-modelling": "Modelling & Architecture",

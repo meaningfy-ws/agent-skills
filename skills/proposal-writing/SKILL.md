@@ -96,7 +96,7 @@ honest.
 - Coaching whether/how to run P1 and holding the free→paid boundary →
   [`semantic-consulting-coach`](../semantic-consulting-coach/SKILL.md).
 
-**Related:** `estimation`, `decision-package`, `executive-communication`, `semantic-consulting-coach`.
+**Related:** `estimation`, `decision-package`, `executive-communication`, `semantic-consulting-coach`, `writing-antipatterns` (Contract/specification genre failure modes for the SoW half of this skill's output).
 
 ## Tone & style
 

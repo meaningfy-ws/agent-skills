@@ -27,14 +27,14 @@ Bundles are organised by the **role (hat) you wear** — install `meaningfy-core
 
 ## What's inside
 
-22 skills in **4 role bundles** — every skill lives in exactly one bundle (no duplication); the
+23 skills in **4 role bundles** — every skill lives in exactly one bundle (no duplication); the
 table below is bundle-level only. For the per-skill picture — purpose, which cross-cutting concern
 each one serves, and which skills depend on which — see
 [`docs/skill-inventory.md`](docs/skill-inventory.md) (a generated map + tables, not hand-maintained).
 
 | Bundle | Skills | Install if you… |
 |--------|--------|-----------------|
-| **meaningfy-core** | **technical-writing** · **explanatory-writing** · **meaningfy-git-workflow** · **guardrails** | …do anything (cross-cutting basics) |
+| **meaningfy-core** | **technical-writing** · **explanatory-writing** · **writing-antipatterns** · **meaningfy-git-workflow** · **guardrails** | …do anything (cross-cutting basics) |
 | **meaningfy-consulting** | **semantic-consulting-coach** · **decision-package** · **proposal-writing** · **estimation** · **executive-communication** | …do advisory / front-of-funnel work |
 | **meaningfy-architecture** | **architecture** · **conceptual-modelling** · **modelling-conventions** · **linkml-engineering** | …design systems or model a domain |
 | **meaningfy-building** | **epic-planning** · **spec-stewardship** · **clarity-gate** · **bdd-gherkin** · **meaningfy-code-review** · **cosmic-python** · **project-setup** · **ci-cd-delivery** · **meaningfy-release** | …build software with the spine |

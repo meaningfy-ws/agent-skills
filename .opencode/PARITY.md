@@ -29,3 +29,4 @@
 | `skill:semantic-consulting-coach` | ✓ | ✓ | 0 |
 | `skill:spec-stewardship` | ✓ | ✓ | 0 |
 | `skill:technical-writing` | ✓ | ✓ | 0 |
+| `skill:writing-antipatterns` | ✓ | ✓ | 0 |

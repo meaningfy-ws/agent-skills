@@ -5,7 +5,7 @@
      .claude-plugin/marketplace.json, and this file's own PURPOSE_OF/PURPOSE_BLURB
      mappings. tests/test_skill_inventory.py fails the build if this drifts. -->
 
-22 skills across 4 role bundles. Install `meaningfy-core` plus the bundle(s) matching your role — see the root [`README.md`](../README.md).
+23 skills across 4 role bundles. Install `meaningfy-core` plus the bundle(s) matching your role — see the root [`README.md`](../README.md).
 
 ## Map
 
@@ -17,6 +17,7 @@ flowchart LR
   subgraph b_meaningfy_core["meaningfy-core"]
     s_technical_writing["technical-writing"]
     s_explanatory_writing["explanatory-writing"]
+    s_writing_antipatterns["writing-antipatterns"]
     s_meaningfy_git_workflow["meaningfy-git-workflow"]
     s_guardrails["guardrails"]
   end
@@ -74,6 +75,7 @@ flowchart LR
   s_semantic_consulting_coach --> p_consulting_business
   s_spec_stewardship --> p_process_governance
   s_technical_writing --> p_writing_communication
+  s_writing_antipatterns --> p_writing_communication
 
   style b_meaningfy_core fill:#eaf3ff,stroke:#999,stroke-width:1px
   style b_meaningfy_consulting fill:#fff2e0,stroke:#999,stroke-width:1px
@@ -107,11 +109,12 @@ flowchart LR
   style s_semantic_consulting_coach fill:#1e1e1e,color:#ffffff,stroke:#000
   style s_spec_stewardship fill:#1e1e1e,color:#ffffff,stroke:#000
   style s_technical_writing fill:#1e1e1e,color:#ffffff,stroke:#000
+  style s_writing_antipatterns fill:#1e1e1e,color:#ffffff,stroke:#000
 ```
 
 ## Relations
 
-Same bundle containers as the Map, but skill boxes are now colour-coded by **purpose** (the same six categories, one dark shade each) instead of uniform dark — at this many edges, colour is what makes the grouping legible without tracing every line. Two line types, not one: a **thick solid** arrow is *depends on* (39 edges, mechanically parsed from each skill's own "Delegates" text — a skill explicitly handing something off to another); a **thin dashed** arrow is *related* (52 edges, everything else in the "Related" list — weaker, a "see also" rather than a hand-off). Kept separate from the Map's classification edges — 91 relation edges plus 22 classification edges in one diagram was tried and was a long-crossing-line mess, confirmed by actually rendering it.
+Same bundle containers as the Map, but skill boxes are now colour-coded by **purpose** (the same six categories, one dark shade each) instead of uniform dark — at this many edges, colour is what makes the grouping legible without tracing every line. Two line types, not one: a **thick solid** arrow is *depends on* (39 edges, mechanically parsed from each skill's own "Delegates" text — a skill explicitly handing something off to another); a **thin dashed** arrow is *related* (66 edges, everything else in the "Related" list — weaker, a "see also" rather than a hand-off). Kept separate from the Map's classification edges — 105 relation edges plus 22 classification edges in one diagram was tried and was a long-crossing-line mess, confirmed by actually rendering it.
 
 ```mermaid
 %%{init: {'flowchart': {'nodeSpacing': 12, 'rankSpacing': 45, 'curve': 'basis'}}}%%
@@ -119,6 +122,7 @@ flowchart LR
   subgraph b_meaningfy_core["meaningfy-core"]
     s_technical_writing["technical-writing"]
     s_explanatory_writing["explanatory-writing"]
+    s_writing_antipatterns["writing-antipatterns"]
     s_meaningfy_git_workflow["meaningfy-git-workflow"]
     s_guardrails["guardrails"]
   end
@@ -189,6 +193,7 @@ flowchart LR
 
   s_architecture -.-> s_cosmic_python
   s_architecture -.-> s_epic_planning
+  s_architecture -.-> s_writing_antipatterns
   s_bdd_gherkin -.-> s_architecture
   s_bdd_gherkin -.-> s_epic_planning
   s_bdd_gherkin -.-> s_clarity_gate
@@ -210,14 +215,17 @@ flowchart LR
   s_decision_package -.-> s_executive_communication
   s_decision_package -.-> s_conceptual_modelling
   s_decision_package -.-> s_architecture
+  s_decision_package -.-> s_writing_antipatterns
   s_epic_planning -.-> s_architecture
   s_executive_communication -.-> s_proposal_writing
   s_executive_communication -.-> s_decision_package
   s_executive_communication -.-> s_semantic_consulting_coach
   s_executive_communication -.-> s_explanatory_writing
+  s_executive_communication -.-> s_writing_antipatterns
   s_explanatory_writing -.-> s_technical_writing
   s_explanatory_writing -.-> s_executive_communication
   s_explanatory_writing -.-> s_clarity_gate
+  s_explanatory_writing -.-> s_writing_antipatterns
   s_linkml_engineering -.-> s_modelling_conventions
   s_linkml_engineering -.-> s_conceptual_modelling
   s_linkml_engineering -.-> s_architecture
@@ -235,10 +243,20 @@ flowchart LR
   s_modelling_conventions -.-> s_linkml_engineering
   s_modelling_conventions -.-> s_architecture
   s_modelling_conventions -.-> s_cosmic_python
+  s_proposal_writing -.-> s_writing_antipatterns
+  s_semantic_consulting_coach -.-> s_writing_antipatterns
   s_spec_stewardship -.-> s_bdd_gherkin
   s_technical_writing -.-> s_clarity_gate
   s_technical_writing -.-> s_epic_planning
   s_technical_writing -.-> s_explanatory_writing
+  s_technical_writing -.-> s_writing_antipatterns
+  s_writing_antipatterns -.-> s_technical_writing
+  s_writing_antipatterns -.-> s_explanatory_writing
+  s_writing_antipatterns -.-> s_executive_communication
+  s_writing_antipatterns -.-> s_proposal_writing
+  s_writing_antipatterns -.-> s_decision_package
+  s_writing_antipatterns -.-> s_architecture
+  s_writing_antipatterns -.-> s_semantic_consulting_coach
 
   style b_meaningfy_core fill:#eaf3ff,stroke:#999,stroke-width:1px
   style b_meaningfy_consulting fill:#fff2e0,stroke:#999,stroke-width:1px
@@ -266,16 +284,18 @@ flowchart LR
   style s_semantic_consulting_coach fill:#6b1f4d,color:#ffffff,stroke:#000
   style s_spec_stewardship fill:#2b3a67,color:#ffffff,stroke:#000
   style s_technical_writing fill:#7a5c00,color:#ffffff,stroke:#000
+  style s_writing_antipatterns fill:#7a5c00,color:#ffffff,stroke:#000
 ```
 
 ## meaningfy-core
 
-Cross-cutting basics everyone installs: clear technical writing, explanatory-writing craft, the Meaningfy git/PR workflow, and agentic guardrails.
+Cross-cutting basics everyone installs: clear technical writing, explanatory-writing craft, the writing antipatterns catalogue, the Meaningfy git/PR workflow, and agentic guardrails.
 
 | Skill | Purpose | Depends on | Related |
 |---|---|---|---|
-| [`technical-writing`](../skills/technical-writing/SKILL.md) | Produce clear documentation, explanations, summaries, and docstrings — AsciiDoc/Antora or Markdown — with a lightweight clarity check. | — | `clarity-gate`, `epic-planning`, `explanatory-writing` |
-| [`explanatory-writing`](../skills/explanatory-writing/SKILL.md) | Apply explanatory craft so that Explanation-quadrant prose reads clearly — one controlling metaphor, a concrete example beside every abstract claim, self-answered question pivots, short declaratives, coin-and-explain, a confident grounded close. | — | `technical-writing`, `executive-communication`, `clarity-gate` |
+| [`technical-writing`](../skills/technical-writing/SKILL.md) | Produce clear documentation, explanations, summaries, and docstrings — AsciiDoc/Antora or Markdown — with a lightweight clarity check. | — | `clarity-gate`, `epic-planning`, `explanatory-writing`, `writing-antipatterns` |
+| [`explanatory-writing`](../skills/explanatory-writing/SKILL.md) | Apply explanatory craft so that Explanation-quadrant prose reads clearly — one controlling metaphor, a concrete example beside every abstract claim, self-answered question pivots, short declaratives, coin-and-explain, a confident grounded close. | — | `technical-writing`, `executive-communication`, `clarity-gate`, `writing-antipatterns` |
+| [`writing-antipatterns`](../skills/writing-antipatterns/SKILL.md) | The register/genre-conditional catalogue of how writing fails — a genre map (Tutorial, How-to, Reference, Explanation, Decision, Decision record, Contract/specification, Coaching dialogue), a short list of defects that apply regardless of genre, and an inversion matrix of antipatterns whose correctness depends on genre (a rhetorical question is craft in an explainer and a defect in an ADR). | — | `technical-writing`, `explanatory-writing`, `executive-communication`, `proposal-writing`, `decision-package`, `architecture`, `semantic-consulting-coach` |
 | [`meaningfy-git-workflow`](../skills/meaningfy-git-workflow/SKILL.md) | Meaningfy git and GitHub conventions — Conventional Commits (imperative, no trailing punctuation), branch naming, rebase/merge etiquette, the pull-request workflow, free-tier GitHub constraints, and dev-environment hygiene. | — | `cosmic-python`, `meaningfy-release`, `commit-commands`, `code-review`, `meaningfy-code-review` |
 | [`guardrails`](../skills/guardrails/SKILL.md) | Apply agentic guardrails to every step where an LLM agent acts — decision bounds, output validation, and prompt-injection defence. | `clarity-gate`, `cosmic-python`, `meaningfy-code-review` | `clarity-gate`, `meaningfy-code-review`, `cosmic-python` |
 
@@ -285,11 +305,11 @@ The advisory / front-of-funnel role: semantic-technologies coaching, the Decisio
 
 | Skill | Purpose | Depends on | Related |
 |---|---|---|---|
-| [`semantic-consulting-coach`](../skills/semantic-consulting-coach/SKILL.md) | Use when someone running or building a semantic-technologies / data consulting business (ontologies, knowledge graphs, data governance, MDM, semantic interoperability) is thinking through a business, service-design, pricing, partnering, engagement-process, client-situation (B2B sale or B2G tender), negotiation, or executive-message decision and wants to think it through before committing, rather than have delivery work done or a quick factual answer given. | `executive-communication`, `decision-package`, `proposal-writing`, `estimation` | `decision-package`, `proposal-writing`, `executive-communication`, `estimation` |
-| [`decision-package`](../skills/decision-package/SKILL.md) | Produce the Decision Package — the paid keystone deliverable of a semantic/data consulting engagement's P1 Decision Phase. | `proposal-writing` | `semantic-consulting-coach`, `executive-communication`, `conceptual-modelling`, `architecture` |
-| [`proposal-writing`](../skills/proposal-writing/SKILL.md) | Produce the proposal + Statement of Work (SoW) that frames the paid Decision Phase (P1) offer — with an explicit in/out scope boundary, priced as a fixed frame. | `estimation`, `executive-communication`, `decision-package`, `semantic-consulting-coach` | `estimation`, `decision-package`, `executive-communication`, `semantic-consulting-coach` |
+| [`semantic-consulting-coach`](../skills/semantic-consulting-coach/SKILL.md) | Use when someone running or building a semantic-technologies / data consulting business (ontologies, knowledge graphs, data governance, MDM, semantic interoperability) is thinking through a business, service-design, pricing, partnering, engagement-process, client-situation (B2B sale or B2G tender), negotiation, or executive-message decision and wants to think it through before committing, rather than have delivery work done or a quick factual answer given. | `executive-communication`, `decision-package`, `proposal-writing`, `estimation` | `decision-package`, `proposal-writing`, `executive-communication`, `estimation`, `writing-antipatterns` |
+| [`decision-package`](../skills/decision-package/SKILL.md) | Produce the Decision Package — the paid keystone deliverable of a semantic/data consulting engagement's P1 Decision Phase. | `proposal-writing` | `semantic-consulting-coach`, `executive-communication`, `conceptual-modelling`, `architecture`, `writing-antipatterns` |
+| [`proposal-writing`](../skills/proposal-writing/SKILL.md) | Produce the proposal + Statement of Work (SoW) that frames the paid Decision Phase (P1) offer — with an explicit in/out scope boundary, priced as a fixed frame. | `estimation`, `executive-communication`, `decision-package`, `semantic-consulting-coach` | `estimation`, `decision-package`, `executive-communication`, `semantic-consulting-coach`, `writing-antipatterns` |
 | [`estimation`](../skills/estimation/SKILL.md) | A lightweight fixed-cost scoping / estimation discipline that de-risks fixed-cost bids — a CHECKLIST + METHOD, not a heavy model. | `proposal-writing`, `epic-planning`, `decision-package` | `proposal-writing`, `epic-planning`, `decision-package` |
-| [`executive-communication`](../skills/executive-communication/SKILL.md) | Use when turning rough input into a clear, concise, persuasive executive message or analysis: a board paper, proposal, client recommendation, email or Slack note, spoken narrative, slide outline, or a strategic problem to be solved. | `clarity-gate`, `technical-writing` | `proposal-writing`, `decision-package`, `semantic-consulting-coach`, `technical-writing`, `explanatory-writing` |
+| [`executive-communication`](../skills/executive-communication/SKILL.md) | Use when turning rough input into a clear, concise, persuasive executive message or analysis: a board paper, proposal, client recommendation, email or Slack note, spoken narrative, slide outline, or a strategic problem to be solved. | `clarity-gate`, `technical-writing` | `proposal-writing`, `decision-package`, `semantic-consulting-coach`, `technical-writing`, `explanatory-writing`, `writing-antipatterns` |
 
 ## meaningfy-architecture
 
@@ -297,7 +317,7 @@ The design / modelling role: system architecture (C4, ArchiMate/UML, ADRs, contr
 
 | Skill | Purpose | Depends on | Related |
 |---|---|---|---|
-| [`architecture`](../skills/architecture/SKILL.md) | System-level solution architecture — C4 levels (Context, Container, Component, Code), ArchiMate and UML notations, ADRs, and contracts (OpenAPI/AsyncAPI/LinkML). | — | `cosmic-python`, `stream-coding`, `epic-planning` |
+| [`architecture`](../skills/architecture/SKILL.md) | System-level solution architecture — C4 levels (Context, Container, Component, Code), ArchiMate and UML notations, ADRs, and contracts (OpenAPI/AsyncAPI/LinkML). | — | `cosmic-python`, `stream-coding`, `epic-planning`, `writing-antipatterns` |
 | [`conceptual-modelling`](../skills/conceptual-modelling/SKILL.md) | Build and evolve a living, representation-agnostic conceptual model for a product (programming) project — the domain's entities, attributes, relationships, and meaning — and choose how it is rendered. | `linkml-engineering` | `modelling-conventions`, `linkml-engineering`, `architecture`, `cosmic-python` |
 | [`modelling-conventions`](../skills/modelling-conventions/SKILL.md) | The shared, representation-agnostic modelling craft reused across the modelling skills — naming discipline, modelling anti-patterns, and the guardrails a modeller follows while working, plus the two load-bearing principles (decouple attributes into reusable first-class properties; identify everything by a stable URI, implicit by default). | — | `conceptual-modelling`, `linkml-engineering`, `architecture`, `cosmic-python` |
 | [`linkml-engineering`](../skills/linkml-engineering/SKILL.md) | The operational LinkML craft, downstream of an existing model or spec — never greenfield. | `project-setup` | `modelling-conventions`, `conceptual-modelling`, `architecture`, `cosmic-python`, `project-setup` |
