@@ -1,6 +1,6 @@
 # Parity report
 
-> Generated from VERSION `2.8.0` — do not hand-edit.
+> Generated from VERSION `2.9.0` — do not hand-edit.
 
 | Artifact | Claude | opencode | Gaps |
 |---|---|---|---|

@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Meaningfy company-wide skills, agents, methodologies, and engineering standards for working with LLM agents consistently",
-    "version": "2.8.0"
+    "version": "2.9.0"
   },
   "plugins": [
     {
