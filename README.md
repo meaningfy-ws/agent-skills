@@ -27,7 +27,10 @@ Bundles are organised by the **role (hat) you wear** — install `meaningfy-core
 
 ## What's inside
 
-20 skills in **4 role bundles** — every skill lives in exactly one bundle (no duplication):
+22 skills in **4 role bundles** — every skill lives in exactly one bundle (no duplication); the
+table below is bundle-level only. For the per-skill picture — purpose, which cross-cutting concern
+each one serves, and which skills depend on which — see
+[`docs/skill-inventory.md`](docs/skill-inventory.md) (a generated map + tables, not hand-maintained).
 
 | Bundle | Skills | Install if you… |
 |--------|--------|-----------------|

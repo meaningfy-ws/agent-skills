@@ -16,7 +16,7 @@ PACKAGE="" ; PROJECT_NAME="" ; SLUG="" ; PYVER="3.12"
 ORG="meaningfy-ws" ; BRANCH="develop" ; DESC="" ; YEAR="$(date +%Y)"
 ARCHETYPE="product" ; TARGET="$(pwd)"
 WITH_DOCS=1 ; WITH_INFRA=1 ; WITH_CI=1 ; DEPLOYABLE=0
-FORCE=0 ; SKIP_EXISTING=0 ; NO_LOCK=0 ; DRY_RUN=0 ; MINIMAL=0
+FORCE=0 ; SKIP_EXISTING=0 ; NO_LOCK=0 ; DRY_RUN=0 ; MINIMAL=0 ; NEO4J=0
 # OpenSpec version this skill pins schemas against (kept in sync with spine/openspec-version.txt).
 OPENSPEC_PIN="1.4.1"
 
@@ -33,6 +33,8 @@ Options:
   -a, --archetype TYPE   product|library|doc-only  (default: product)
                          legacy aliases service|pipeline|cli -> product
       --deployable       this repo ships a deployable artifact -> CD TODO stub (ci-cd-delivery)
+      --neo4j            project the PINNED gen-neo4j-constraints/gen-neomodel generators into
+                          scripts/ (product + LinkML only — see references/checklists.md)
       --python VER       Python version           (default: 3.12)
       --org ORG          GitHub org               (default: meaningfy-ws)
       --branch BRANCH    default/PR branch        (default: develop)
@@ -73,6 +75,7 @@ while [[ $# -gt 0 ]]; do
     --desc)       DESC="$2"; shift 2;;
     --target)     TARGET="$2"; shift 2;;
     --deployable) DEPLOYABLE=1; shift;;
+    --neo4j)      NEO4J=1; shift;;
     --minimal)    MINIMAL=1; shift;;
     --no-docs)    WITH_DOCS=0; shift;;
     --no-infra)   WITH_INFRA=0; shift;;
@@ -217,6 +220,33 @@ scaffold_openspec() {
   fi
 }
 
+# scaffold_neo4j_generators : project the PINNED gen-neo4j-constraints/gen-neomodel
+# generators (tools/linkml_neo4j/ — maintained, tested code; NOT a skill asset, see
+# linkml-engineering's generation-and-templates.md for why) into scripts/. Only
+# meaningful for a product using LinkML with a Neo4j target (--neo4j); see
+# references/checklists.md.
+scaffold_neo4j_generators() {
+  local gen_src="$SCRIPT_DIR/../../../tools/linkml_neo4j"
+  local gen_dst="$TARGET/scripts"
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    [[ -d "$gen_dst" && -f "$gen_dst/gen_neo4j_constraints.py" ]] \
+      && echo "  = keep   scripts/gen_neo4j_constraints.py, scripts/gen_neomodel.py (pinned)" \
+      || echo "  + create scripts/gen_neo4j_constraints.py, scripts/gen_neomodel.py (pinned, copied from skillery)"
+  elif [[ -d "$gen_src" ]]; then
+    mkdir -p "$gen_dst"
+    for f in gen_neo4j_constraints.py gen_neomodel.py; do
+      if [[ -f "$gen_dst/$f" && "$FORCE" -ne 1 ]]; then
+        echo "  skip (exists): scripts/$f (re-run with --force to refresh; never clobbered in place)"
+      else
+        cp "$gen_src/$f" "$gen_dst/$f"
+        echo "  copied scripts/$f (PINNED — refresh via --force; see references/checklists.md)"
+      fi
+    done
+  else
+    echo "  NOTE: linkml-engineering generators not found ($gen_src) — copy scripts/gen_neo4j_constraints.py + scripts/gen_neomodel.py from skillery manually."
+  fi
+}
+
 # ---- minimal mode: agentic files + .claude/ layout only -------------------
 if [[ "$MINIMAL" -eq 1 ]]; then
   echo "MINIMAL mode — agentic files (CLAUDE.md + AGENTS symlink) + .claude/ layout only."
@@ -346,6 +376,7 @@ fi
 # ---- 5. agentic layer (CLAUDE-canonical) + spine (openspec/) ---------------
 scaffold_agentic
 scaffold_openspec
+[[ "$PRODUCT" -eq 1 && "$NEO4J" -eq 1 ]] && scaffold_neo4j_generators
 
 # ---- 6. docs pillar (Antora) ----------------------------------------------
 if [[ "$WITH_DOCS" -eq 1 ]]; then

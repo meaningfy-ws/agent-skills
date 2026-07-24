@@ -1,0 +1,89 @@
+id: http://meaningfy.ws/ontology/hulubul/channel
+name: hulubul_channel
+title: Hulubul Channel Model
+description: >-
+  Communication channels for Hulubul V1. A Channel is both the endpoint through
+  which an agent is reached and — when validated — the credential that
+  authenticates it (control-is-credential, bot-mediated-only assumption). No
+  separate User/Account class exists in V1.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+
+classes:
+
+  Channel:
+    class_uri: hlb:Channel
+    description: >-
+      A communication channel bound to a single agent — the endpoint through
+      which the agent is reached and, when validated, authenticated.
+    aliases: [ContactPoint, Contact Channel, Account, Principal]
+    slots:
+      - id
+      - description
+    attributes:
+      alias:
+        slot_uri: hlb:alias
+        description: Human label for the channel (e.g. "mum's WhatsApp").
+      systemID:
+        slot_uri: hlb:systemID
+        description: Provider/platform-issued identifier (e.g. Telegram chat/user id).
+        required: true
+      email:
+        slot_uri: hlb:email
+        description: Email address, when the medium is email.
+      telephone:
+        slot_uri: hlb:telephone
+        description: Phone number, when the medium is phone-based.
+      hasMedium:
+        slot_uri: hlb:hasMedium
+        description: The medium/platform of this channel.
+        range: Medium
+        required: true
+      validationStatus:
+        slot_uri: hlb:validationStatus
+        description: Whether control of the channel has been verified.
+        range: ChannelValidationStatus
+        required: true
+
+enums:
+
+  Medium:
+    enum_uri: hlb:Medium
+    description: The medium/platform of a communication channel.
+    permissible_values:
+      GSM:
+        meaning: hlb:GSM
+        description: Mobile phone / SMS / voice.
+      WhatsApp:
+        meaning: hlb:WhatsApp
+        description: WhatsApp messaging.
+      Telegram:
+        meaning: hlb:Telegram
+        description: Telegram messaging.
+      Viber:
+        meaning: hlb:Viber
+        description: Viber messaging.
+      email:
+        meaning: hlb:email
+        description: Email.
+
+  ChannelValidationStatus:
+    enum_uri: hlb:ChannelValidationStatus
+    description: Whether control of a channel has been verified.
+    permissible_values:
+      valid:
+        meaning: hlb:valid
+        description: Control verified; usable as a trusted login.
+      invalid:
+        meaning: hlb:invalid
+        description: Verification failed or channel unreachable.
+      needsReview:
+        meaning: hlb:needsReview
+        description: Not yet verified; contact-only until validated.

@@ -161,7 +161,9 @@ def map_skill(repo: Path, name: str) -> tuple[dict[str, bytes], list[Gap]]:
             raise ValueError(f"skill '{name}': SKILL.md missing '{field}'")
     tree: dict[str, bytes] = {}
     for f in sorted(src.rglob("*")):
-        if f.is_file():
+        if "__pycache__" in f.parts:
+            continue  # a skill may ship importable Python assets; never mirror their bytecode cache
+        if f.is_file() and f.suffix not in (".pyc", ".pyo"):
             rel = f.relative_to(src).as_posix()
             tree[f"{OPENCODE_DIR}/skills/{name}/{rel}"] = f.read_bytes()
     return tree, []

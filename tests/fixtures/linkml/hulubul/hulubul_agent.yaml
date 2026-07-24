@@ -1,0 +1,118 @@
+id: http://meaningfy.ws/ontology/hulubul/agent
+name: hulubul_agent
+title: Hulubul Agent & Roles Model
+description: >-
+  The party-role pattern for Hulubul V1. Agent is the enduring party (identity,
+  channels, location, optional standing service). AgentInRole is the episodic,
+  reified participation an agent plays within a request; Transporter, Sender and
+  Receiver are its subtypes. An Agent never *is* a role — it *plays* one.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+  - hulubul_spatial
+  - hulubul_channel
+
+classes:
+
+  Agent:
+    class_uri: hlb:Agent
+    description: >-
+      An enduring party — a person or an organisation — that participates in
+      Hulubul. Holds stable identity, communication channels, an optional main
+      location, and may publish a standing transport service and play episodic
+      roles.
+    aliases: [Party, Actor]
+    slots:
+      - id
+      - name
+      - description
+    slot_usage:
+      name:
+        required: true
+    attributes:
+      identifier:
+        slot_uri: hlb:identifier
+        description: Stable unique business identifier of the agent within Hulubul.
+        required: true
+      hasContactPoint:
+        slot_uri: hlb:hasContactPoint
+        description: >-
+          Communication channels through which the agent can be reached and,
+          when validated, authenticated.
+        range: Channel
+        multivalued: true
+        inlined: false
+      hasMainContactPoint:
+        slot_uri: hlb:hasMainContactPoint
+        description: The agent's primary/default channel; also the trusted login channel.
+        range: Channel
+        inlined: false
+      hasMainLocation:
+        slot_uri: hlb:hasMainLocation
+        description: The agent's principal location.
+        range: Address
+        inlined: false
+      providesService:
+        slot_uri: hlb:providesService
+        description: >-
+          The standing, request-agnostic transport offering published by this
+          agent (present only for transporters).
+        range: TransportService
+        inlined: false
+
+  AgentInRole:
+    class_uri: hlb:AgentInRole
+    abstract: true
+    description: >-
+      The episodic, situation-dependent role an Agent plays within a specific
+      interaction; a reified participation. Anti-rigid: the same Agent plays
+      different roles across different requests.
+    aliases: [Participation, Role, RoleAssignment]
+    slots:
+      - id
+    attributes:
+      playedBy:
+        slot_uri: hlb:playedBy
+        description: The enduring agent enacting this role.
+        range: Agent
+        required: true
+        inlined: false
+      hasAltContactPointInRole:
+        slot_uri: hlb:hasAltContactPointInRole
+        description: >-
+          An alternative channel to use for this participation, overriding the
+          agent's default.
+        range: Channel
+        inlined: false
+
+  Transporter:
+    class_uri: hlb:Transporter
+    is_a: AgentInRole
+    description: The role of the agent that carries the parcel(s) for a delivery request.
+    aliases: [Carrier, Courier]
+
+  Sender:
+    class_uri: hlb:Sender
+    is_a: AgentInRole
+    description: >-
+      The role of the agent that initiates a delivery request and hands over the
+      parcel(s). The sender also names the receiver.
+    aliases: [Consignor, Shipper]
+
+  Receiver:
+    class_uri: hlb:Receiver
+    is_a: AgentInRole
+    description: The role of the agent intended to take delivery of the parcel(s).
+    aliases: [Consignee, Recipient]
+    attributes:
+      deliveryNote:
+        slot_uri: hlb:deliveryNote
+        description: >-
+          A note from or for the receiver regarding delivery
+          (e.g. handover instructions).
