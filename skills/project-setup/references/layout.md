@@ -54,6 +54,10 @@ first: `domain` (the book's `models/`) → `adapters` → `services` → `entryp
 ├── model/                        # conceptual model (LinkML) — PRODUCT archetype only (R5)
 │   └── schema.yaml               #   the domain source; make generate-models renders the targets
 │
+├── scripts/                      # PINNED, projected generators — only if LinkML + Neo4j (Q4.5+Q5.1)
+│   ├── gen_neo4j_constraints.py  #   copied from skillery's tools/linkml_neo4j/; refresh
+│   └── gen_neomodel.py           #   = re-run project-setup, review the diff (never silent)
+│
 ├── openspec/                     # the SPINE (see spine-projection.md) — projected into every repo
 │   ├── config.yaml               # schema: meaningfy ; context: ; the 3 thin per-artifact rules
 │   ├── schemas/meaningfy/         # the PINNED meaningfy schema (copied from skillery)

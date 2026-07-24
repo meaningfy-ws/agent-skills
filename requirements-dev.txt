@@ -1,2 +1,6 @@
 pyyaml>=6.0
 pytest>=8.0
+click>=8.0
+linkml>=1.11
+neomodel>=6.0
+jinja2>=3.1

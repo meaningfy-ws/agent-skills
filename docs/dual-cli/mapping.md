@@ -1,9 +1,14 @@
 # Source → CLI mapping reference
 
+**Audience: skillery contributors** — this is the generation contract for the catalogue's *own*
+artifacts (skills, agents, commands, hooks), read by whoever adds a skill/agent or maintains the
+`dual-cli-generator`. It is not install documentation; if you're installing the catalogue, see
+[`docs/environment-setup.md`](../environment-setup.md) instead.
+
 One set of sources, two CLIs. This is the shared translation table both
-[`setup-claude.md`](setup-claude.md) and [`setup-opencode.md`](setup-opencode.md) build on. It
-records *what derives from what* — the contract the `dual-cli-generator` implements (it does not
-generate anything here).
+[`setup-claude.md`](setup-claude.md) and [`setup-opencode.md`](setup-opencode.md) were *written
+against* (it explains why each runbook's steps look the way they do). It records *what derives from
+what* — the contract the `dual-cli-generator` implements (it does not generate anything here).
 
 ## Artifact mapping
 

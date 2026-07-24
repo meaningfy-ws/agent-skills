@@ -1,5 +1,9 @@
 # Body-agnosticism audit
 
+**Audience: skillery contributors** authoring or editing a skill body — check this before adding a
+CLI-specific reference to prose, and update the table if the `body_agnosticism` repo-lint check
+flags a new one. Not install documentation.
+
 Skill *bodies* should read identically on Claude Code and opencode. The structural mapping
 (frontmatter, tool names, command registration) is the generator's job; the **prose** must not
 silently assume one CLI.

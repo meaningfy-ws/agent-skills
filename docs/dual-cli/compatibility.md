@@ -1,5 +1,11 @@
 # External-dependency & baseline-pack compatibility matrix
 
+**Audience: skillery contributors** — checking or recording whether an external dependency has
+opencode support, before referencing it from a skill or bundle. Not install documentation: an
+installer following [`setup-claude.md`](setup-claude.md)/[`setup-opencode.md`](setup-opencode.md)
+already gets the correct per-CLI command; come here to double-check *why*, or to add a new
+dependency's row.
+
 First-party artifacts (`skills/`, `agents/`, the four bundles) are generated with verified parity —
 they are *not* in this matrix. This page covers the **external boundary**: third-party plugins,
 skill-packs, and MCP servers the catalogue references but cannot generate (DEC-11). Each row records
@@ -20,9 +26,9 @@ Status legend:
 
 | Dependency | Used by | opencode status | Claude install | opencode install / gap |
 |---|---|---|---|---|
-| **superpowers** (brainstorming, test-driven-development, systematic-debugging, verification-before-completion, requesting/receiving-code-review) | CLAUDE.md/AGENTS.md routing, epic-planning, guardrails, spec-stewardship | `.claude/`-compat | plugin marketplace | opencode reads `.claude/skills/` natively; install the superpowers skills into `.claude/skills/` and both CLIs load them. No port. |
-| **ponytail** (laziness/YAGNI discipline) | project-setup routing, CLAUDE.md | `.claude/`-compat | plugin marketplace | same `.claude/skills/` path; `/ponytail` slash form → opencode `ponytail` command (delegated). |
-| **stream-coding** (doc-first method) | clarity-gate, cosmic-python (external method) | `.claude/`-compat | plugin / repo skill | `.claude/skills/`-loadable; method is prose, no CLI binding. |
+| **superpowers** (brainstorming, test-driven-development, systematic-debugging, verification-before-completion, requesting/receiving-code-review) | CLAUDE.md/AGENTS.md routing, epic-planning, guardrails, spec-stewardship | native (own opencode plugin) | plugin marketplace | ships its own opencode plugin — `{"plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]}` in `opencode.json`. Not a `.claude/skills/` copy; see [superpowers' own opencode install doc](https://github.com/obra/superpowers/blob/main/docs/README.opencode.md). |
+| **ponytail** (laziness/YAGNI discipline) | project-setup routing, CLAUDE.md | native (own opencode plugin) | plugin marketplace | ships its own opencode plugin — `{"plugin": ["@dietrichgebert/ponytail"]}` in `opencode.json`; `/ponytail` slash form → opencode `ponytail` command (delegated). |
+| **stream-coding** (doc-first method) | clarity-gate, cosmic-python (external method) | `.claude/`-compat | plugin / repo skill | it's a single `SKILL.md`, not a package — copy it into `.claude/skills/stream-coding/`; opencode reads that path natively. |
 | **commit-commands** (`commit-commands:commit`) | meaningfy-git-workflow | native (command) | plugin command | opencode `.opencode/commands/`; the *content* derives from the shared command source, registration is per-CLI (tool-native boundary). |
 | **OpenSpec** (`@fission-ai/openspec`, the spine engine + `/opsx:*`) | the spine (project-setup, epic-planning, spec-stewardship) | native | `npm i -g @fission-ai/openspec`; `openspec update --tools claude` | same npm package; `openspec update --tools opencode` registers `opsx-<id>`. Registration form is tool-native (differs by design), not a gap. |
 | **code-review** (read-only PR-review *runner*) | optional pair for `meaningfy-code-review` | unsupported (Claude plugin) | `/plugin install code-review@claude-plugins-official` | **gap (optional)** — no opencode plugin equivalent; on opencode run the `meaningfy-code-review` skill directly or opencode's native review. The review *checklist* (the skill) works on both CLIs, so no workflow is blocked. |

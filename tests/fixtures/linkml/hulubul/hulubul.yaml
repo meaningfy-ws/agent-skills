@@ -1,0 +1,26 @@
+id: http://meaningfy.ws/ontology/hulubul/hulubul
+name: hulubul
+title: Hulubul V1 Conceptual Model
+description: >-
+  Umbrella schema for the Hulubul V1 conceptual model — a parcel-request
+  intermediation service between Moldova, the diaspora and international
+  destinations. Imports the six domain modules (spatial, channel, agent, service,
+  request, feedback) over the shared common base. Faithful to the five source
+  Enterprise Architect diagrams (2026-07-10); flagged transcription artifacts are
+  resolved to their plausible reading with an inline note. Intended targets:
+  Neo4j (via linkml-store) and Pydantic.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+  - hulubul_spatial
+  - hulubul_channel
+  - hulubul_agent
+  - hulubul_service
+  - hulubul_request
+  - hulubul_feedback

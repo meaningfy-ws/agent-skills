@@ -1,0 +1,54 @@
+id: http://meaningfy.ws/ontology/hulubul/common
+name: hulubul_common
+title: Hulubul Common Base
+description: >-
+  Shared foundation for the Hulubul V1 LinkML model: prefixes, default namespace,
+  datatype defaults, and the reusable slots that recur across several modules
+  (id, name, description, comment). Every other Hulubul module imports this one.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+  linkml: https://w3id.org/linkml/
+  xsd: http://www.w3.org/2001/XMLSchema#
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  skos: http://www.w3.org/2004/02/skos/core#
+  geo: http://www.opengis.net/ont/geosparql#
+
+# hlb is the default: every un-prefixed class/slot mints a hlb: URI implicitly
+# (class_uri = hlb:ClassName, slot_uri = hlb:slotName). Names are kept in the
+# exact camelCase drawn in the source diagrams so the implicit URIs match the
+# transcribed ontology terms verbatim.
+default_prefix: hlb
+default_range: string
+
+imports:
+  - linkml:types
+
+slots:
+  # ---- graph identity (infrastructure, not a domain attribute) --------------
+  # Every entity class carries `id` so linkml-store can map it to a Neo4j node
+  # and reference it by relationship. Value objects (GeoCoordinates) omit it and
+  # are therefore inlined rather than promoted to nodes.
+  id:
+    description: Graph node identity for this instance (distinct from any business identifier).
+    identifier: true
+    range: uriorcurie
+    required: true
+
+  # ---- reusable descriptive slots ------------------------------------------
+  name:
+    slot_uri: hlb:name
+    description: Human-readable name.
+    range: string
+
+  description:
+    slot_uri: hlb:description
+    description: Free-text description.
+    range: string
+
+  comment:
+    slot_uri: hlb:comment
+    description: Free-text remark or annotation.
+    range: string

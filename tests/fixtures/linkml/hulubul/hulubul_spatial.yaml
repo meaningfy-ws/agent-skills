@@ -1,0 +1,149 @@
+id: http://meaningfy.ws/ontology/hulubul/spatial
+name: hulubul_spatial
+title: Hulubul Spatial Model
+description: >-
+  GeoSPARQL-aligned spatial hierarchy for Hulubul V1. SpatialObject is the
+  abstract root; Address (precise), Area (coarse, nested) and Place (named point)
+  are its subtypes; GeoCoordinates is a composed point geometry attached via
+  hasCoordinates. The coarse Area vs precise Address split is load-bearing for
+  matching and for access-control disclosure-by-reachability.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+  geo: http://www.opengis.net/ont/geosparql#
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+
+slots:
+  # Reused by Address, Area (reflexive), Place and ServiceOffer (in the service
+  # module) — all with "is within this area" semantics and range Area.
+  withinArea:
+    slot_uri: hlb:withinArea
+    description: The area this object sits within.
+    range: Area
+    inlined: false
+
+  hasCoordinates:
+    slot_uri: hlb:hasCoordinates
+    description: The point geometry of this spatial object.
+    range: GeoCoordinates
+    multivalued: false
+
+classes:
+
+  SpatialObject:
+    class_uri: hlb:SpatialObject
+    abstract: true
+    description: >-
+      Root of the spatial hierarchy (aligned to geo:SpatialObject). Anything with
+      spatial identity that may carry a geometry.
+    aliases: [Spatial Thing, Location]
+    slots:
+      - id
+      - comment
+      - hasCoordinates
+    slot_usage:
+      comment:
+        required: false  # ponytail: source drew [1] (no marker) but a mandatory
+                         # comment on every spatial object is implausible → [0..1].
+
+  Address:
+    class_uri: hlb:Address
+    is_a: SpatialObject
+    description: A precise, pin-level postal address.
+    aliases: [Postal Address, Street Address]
+    attributes:
+      number:
+        slot_uri: hlb:number
+        description: House/building number.
+        required: true
+      street:
+        slot_uri: hlb:street
+        description: Street name.
+        required: true
+      postCode:
+        slot_uri: hlb:postCode
+        description: Postal code.
+        required: true
+    slots:
+      - withinArea
+    slot_usage:
+      withinArea:
+        required: true  # [1]: the coarse area this address falls within.
+
+  Area:
+    class_uri: hlb:Area
+    is_a: SpatialObject
+    description: >-
+      A coarse administrative or geographic unit (locality, county, state,
+      country) forming a nested containment hierarchy. Transporter service offers
+      and matching operate on Area; exact pickup/delivery use Address.
+    aliases: [Region, Locality, Administrative Area, Zone]
+    attributes:
+      locality:
+        slot_uri: hlb:locality
+        description: Town/city/locality name.
+      county:
+        slot_uri: hlb:county
+        description: County/district (raion).
+      country:
+        slot_uri: hlb:country
+        description: Country name.
+      state:
+        slot_uri: hlb:state
+        description: State/region within country.
+    slots:
+      - withinArea
+    slot_usage:
+      withinArea:
+        required: false
+        multivalued: false  # ponytail: source drew [0..*] but containment is a
+                            # tree (one parent) → [0..1]. Reflexive: Area→Area.
+
+  Place:
+    class_uri: hlb:Place
+    is_a: SpatialObject
+    description: >-
+      A named, typed point/place of interest (landmark, depot, pickup point)
+      sitting within an Area. Distinct from coarse Area and precise Address.
+    aliases: [Named Place, Point of Interest, Landmark]
+    attributes:
+      name:
+        slot_uri: hlb:name
+        description: Human-readable name of the place.
+      hasIdentifier:
+        slot_uri: hlb:hasIdentifier
+        description: Identifier of the place (e.g. gazetteer id).
+        required: true
+      hasType:
+        slot_uri: hlb:hasType
+        description: Type of the place (e.g. depot, landmark, pickup point).
+        required: true
+    slots:
+      - withinArea
+    slot_usage:
+      withinArea:
+        required: false  # [0..1]
+
+  GeoCoordinates:
+    class_uri: hlb:GeoCoordinates
+    description: >-
+      A WGS84 latitude/longitude point — the geometry attached to a spatial
+      object (GeoSPARQL geo:Geometry analogue). Composed value object, inlined
+      (no id) rather than a node.
+    aliases: [Coordinates, Point, Geometry, LatLong]
+    attributes:
+      latitude:
+        slot_uri: hlb:latitude
+        description: WGS84 latitude.
+        range: float
+        required: true
+      longitude:
+        slot_uri: hlb:longitude
+        description: WGS84 longitude.
+        range: float
+        required: true
