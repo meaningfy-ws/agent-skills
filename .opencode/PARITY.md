@@ -1,6 +1,6 @@
 # Parity report
 
-> Generated from VERSION `2.8.0` — do not hand-edit.
+> Generated from VERSION `2.9.0` — do not hand-edit.
 
 | Artifact | Claude | opencode | Gaps |
 |---|---|---|---|
@@ -29,3 +29,4 @@
 | `skill:semantic-consulting-coach` | ✓ | ✓ | 0 |
 | `skill:spec-stewardship` | ✓ | ✓ | 0 |
 | `skill:technical-writing` | ✓ | ✓ | 0 |
+| `skill:writing-antipatterns` | ✓ | ✓ | 0 |

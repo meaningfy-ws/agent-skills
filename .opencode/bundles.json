@@ -28,8 +28,9 @@
       "explanatory-writing",
       "guardrails",
       "meaningfy-git-workflow",
-      "technical-writing"
+      "technical-writing",
+      "writing-antipatterns"
     ]
   },
-  "version": "2.8.0"
+  "version": "2.9.0"
 }

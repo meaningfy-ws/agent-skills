@@ -27,11 +27,14 @@ Bundles are organised by the **role (hat) you wear** — install `meaningfy-core
 
 ## What's inside
 
-20 skills in **4 role bundles** — every skill lives in exactly one bundle (no duplication):
+23 skills in **4 role bundles** — every skill lives in exactly one bundle (no duplication); the
+table below is bundle-level only. For the per-skill picture — purpose, which cross-cutting concern
+each one serves, and which skills depend on which — see
+[`docs/skill-inventory.md`](docs/skill-inventory.md) (a generated map + tables, not hand-maintained).
 
 | Bundle | Skills | Install if you… |
 |--------|--------|-----------------|
-| **meaningfy-core** | **technical-writing** · **explanatory-writing** · **meaningfy-git-workflow** · **guardrails** | …do anything (cross-cutting basics) |
+| **meaningfy-core** | **technical-writing** · **explanatory-writing** · **writing-antipatterns** · **meaningfy-git-workflow** · **guardrails** | …do anything (cross-cutting basics) |
 | **meaningfy-consulting** | **semantic-consulting-coach** · **decision-package** · **proposal-writing** · **estimation** · **executive-communication** | …do advisory / front-of-funnel work |
 | **meaningfy-architecture** | **architecture** · **conceptual-modelling** · **modelling-conventions** · **linkml-engineering** | …design systems or model a domain |
 | **meaningfy-building** | **epic-planning** · **spec-stewardship** · **clarity-gate** · **bdd-gherkin** · **meaningfy-code-review** · **cosmic-python** · **project-setup** · **ci-cd-delivery** · **meaningfy-release** | …build software with the spine |
@@ -46,50 +49,14 @@ Thin **agent** wrappers live in [`agents/`](agents/) — `epic-planner`, `implem
 
 ## Installation
 
-> **Two CLIs, one catalogue, equal footing.** Skillery runs on **Claude Code** and **opencode** from
-> the same sources with gate-verified parity. Pick your CLI and follow its runbook end to end — you do
-> not need the other. The shared source→CLI contract and compatibility matrix are in
-> [`docs/dual-cli/`](docs/dual-cli/README.md).
+Runs on **Claude Code** and **opencode**, from the same sources, with gate-verified parity — pick
+either, you don't need both.
 
-**Prerequisites**
-- [Claude Code](https://docs.claude.com/claude-code) (CLI, desktop, or IDE) **or** [opencode](https://opencode.ai).
-- **Node ≥ 18** — for OpenSpec (`@fission-ai/openspec`), the spine engine.
-
-**1. Install the bundle(s) for your role.** Add the skillery marketplace and install `meaningfy-core`
-plus the role bundles you wear (`meaningfy-building`, `-architecture`, `-consulting`). The exact
-commands are CLI-native — follow your CLI's runbook:
-
-| Your CLI | Install runbook |
-|---|---|
-| **Claude Code** | [`docs/dual-cli/setup-claude.md`](docs/dual-cli/setup-claude.md) |
-| **opencode** | [`docs/dual-cli/setup-opencode.md`](docs/dual-cli/setup-opencode.md) |
-
-Each runbook also covers the **root binding**, **MCP servers**, **spine commands**, and **hooks** for
-that CLI. The rest of this section (external dependencies, the user/project split) is CLI-agnostic.
-
-**2. External dependencies** (referenced by the skills; install separately)
-
-| | Component | Why | Install |
-|---|---|---|---|
-| **Mandatory** | `superpowers` | TDD, debugging, brainstorming, verification disciplines | `/plugin install superpowers@claude-plugins-official` |
-| | `stream-coding` | the documentation-first build method | external skill (see env-setup) |
-| | `ponytail` | YAGNI / minimal-code discipline | `/plugin marketplace add DietrichGebert/ponytail && /plugin install ponytail@ponytail` |
-| | **OpenSpec** | the spine engine + `/opsx:*` commands | `npm i -g @fission-ai/openspec` then `openspec init` per repo |
-| **Optional** | `commit-commands` | commit/push/PR mechanics (git-workflow delegates here) | `/plugin install commit-commands@claude-plugins-official` |
-| | `code-review` | runs a read-only PR review (pairs with `meaningfy-code-review`) | `/plugin install code-review@claude-plugins-official` |
-| | `gitnexus` · `context7` | code-intelligence · live library docs | external plugins |
-
-The commands above are Claude Code's. On **opencode**: the skill-packs (`superpowers`, `stream-coding`,
-`ponytail`) load from `.claude/` natively; `OpenSpec`, `commit-commands`, and the `gitnexus`/`context7`
-MCP servers are native; **`code-review` is Claude-only** — on opencode use the `meaningfy-code-review`
-skill directly. Per-CLI status for each dependency is in
-[`docs/dual-cli/compatibility.md`](docs/dual-cli/compatibility.md).
-
-**3. User-level vs project-level.** Install the bundles + external skills **once** at the
-user/machine level, and keep your durable coding standards (the *constitution*) in the global
-`~/.claude/CLAUDE.md`. **Per repo**, pin the bundles that repo uses, wire the spine with
-`project-setup`, and keep the repo operating manual in `./CLAUDE.md`. Full detail (every dependency,
-the exact split): [`docs/environment-setup.md`](docs/environment-setup.md).
+**Start here:** [`docs/environment-setup.md`](docs/environment-setup.md). It's the canonical,
+CLI-agnostic entry point — what to install and why — and links you into your CLI's literal,
+copy-paste step-by-step (bundles, mandatory deps, root binding, spine commands, an MCP server if you
+want one, and a verify step) from there. You shouldn't need to go looking for any other doc to get
+installed.
 
 ## Getting started
 

@@ -6,17 +6,18 @@
   },
   "metadata": {
     "description": "Meaningfy company-wide skills, agents, methodologies, and engineering standards for working with LLM agents consistently",
-    "version": "2.8.0"
+    "version": "2.9.0"
   },
   "plugins": [
     {
       "name": "meaningfy-core",
-      "description": "Cross-cutting basics everyone installs: clear technical writing, explanatory-writing craft, the Meaningfy git/PR workflow, and agentic guardrails",
+      "description": "Cross-cutting basics everyone installs: clear technical writing, explanatory-writing craft, the writing antipatterns catalogue, the Meaningfy git/PR workflow, and agentic guardrails",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/technical-writing",
         "./skills/explanatory-writing",
+        "./skills/writing-antipatterns",
         "./skills/meaningfy-git-workflow",
         "./skills/guardrails"
       ]

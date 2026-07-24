@@ -21,6 +21,7 @@ VERSION_FILE = "VERSION"
 OPENCODE_VERSION_FILE = ".opencode-version"
 OPENCODE_DIR = ".opencode"
 OPENCODE_CONFIG = "opencode.json"
+PACKAGE_JSON = "package.json"
 # opencode reads spine /opsx commands via `openspec update --tools opencode`, so
 # these command sources are out of scope for the generator (EPIC rabbit-hole).
 DELEGATED_COMMAND_DIRS = (".claude/commands/opsx",)
@@ -160,7 +161,9 @@ def map_skill(repo: Path, name: str) -> tuple[dict[str, bytes], list[Gap]]:
             raise ValueError(f"skill '{name}': SKILL.md missing '{field}'")
     tree: dict[str, bytes] = {}
     for f in sorted(src.rglob("*")):
-        if f.is_file():
+        if "__pycache__" in f.parts:
+            continue  # a skill may ship importable Python assets; never mirror their bytecode cache
+        if f.is_file() and f.suffix not in (".pyc", ".pyo"):
             rel = f.relative_to(src).as_posix()
             tree[f"{OPENCODE_DIR}/skills/{name}/{rel}"] = f.read_bytes()
     return tree, []
@@ -306,6 +309,7 @@ def write_tree(repo: Path) -> list[str]:
         dest.write_bytes(data)
         written.append(rel)
     _sync_marketplace_version(repo)
+    _sync_package_version(repo)
     return written
 
 
@@ -313,6 +317,15 @@ def _sync_marketplace_version(repo: Path) -> None:
     path = repo / MARKETPLACE
     data = json.loads(path.read_text(encoding="utf-8"))
     data.setdefault("metadata", {})["version"] = version(repo)
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def _sync_package_version(repo: Path) -> None:
+    path = repo / PACKAGE_JSON
+    if not path.exists():
+        return
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["version"] = version(repo)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
@@ -367,6 +380,10 @@ def version_sync_errors(repo: Path) -> list[str]:
     if bundles.exists():
         if json.loads(bundles.read_text(encoding="utf-8")).get("version") != ver:
             out.append(f".opencode/bundles.json version != VERSION ({ver})")
+    package = repo / PACKAGE_JSON
+    if package.exists():
+        if json.loads(package.read_text(encoding="utf-8")).get("version") != ver:
+            out.append(f"package.json version != VERSION ({ver})")
     return out
 
 

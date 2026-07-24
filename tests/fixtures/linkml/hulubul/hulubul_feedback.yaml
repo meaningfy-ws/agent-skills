@@ -1,0 +1,55 @@
+id: http://meaningfy.ws/ontology/hulubul/feedback
+name: hulubul_feedback
+title: Hulubul Feedback Model
+description: >-
+  Reified rating/comment left by one participation about another, optionally
+  scoped to a delivery request. Feedback attaches to AgentInRole (the
+  participation) — you rate a party as they acted in a given role — not to Agent
+  directly. It is the raw material from which public reputation is computed.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+  - hulubul_agent
+  - hulubul_request
+
+classes:
+
+  Feedback:
+    class_uri: hlb:Feedback
+    description: >-
+      A reified rating and/or comment left by one participation about another,
+      optionally scoped to a delivery request.
+    aliases: [Rating, Review, Testimonial]
+    slots:
+      - id
+    attributes:
+      rating:
+        slot_uri: hlb:rating
+        description: Numeric score.
+        range: integer
+      comment:
+        slot_uri: hlb:comment
+        description: Free-text remark.
+      fromProvider:
+        slot_uri: hlb:fromProvider
+        description: The participation that authored the feedback.
+        range: AgentInRole
+        required: true
+        inlined: false
+      toRecipient:
+        slot_uri: hlb:toRecipient
+        description: The participation the feedback is about.
+        range: AgentInRole
+        required: true
+        inlined: false
+      aboutRequest:
+        slot_uri: hlb:aboutRequest
+        description: The delivery request the feedback concerns.
+        range: DeliveryRequest
+        inlined: false

@@ -29,6 +29,13 @@ multi-component) apply only if the interview selected them.
       multi-component, model `code-anatomy.md` first, then translate to contracts.
 - [ ] **Model** (product) — `model/` (LinkML seed) + the `make generate-models` bridge
       (`conceptual-modelling`).
+- [ ] **Neo4j generators** (product, LinkML model source + Neo4j datastore selected, Q4.5 + Q5.1) —
+      project a **pinned copy** of `gen-neo4j-constraints`/`gen-neomodel` (repo tooling at
+      `tools/linkml_neo4j/` — documented, not owned, by `linkml-engineering`) into `scripts/`; wire
+      `make neo4j-constraints` / `make neomodel` targets alongside the existing `make
+      generate-models` ones. Refresh path:
+      re-run `project-setup`, review the diff — same discipline as the `meaningfy` OpenSpec schema
+      pin (`spine-projection.md`), never silently overwritten.
 - [ ] **Tests** (code) — drop the `tests/` tree with the marker-injecting `conftest.py` and one
       smoke unit test + one example feature (`testing-setup.md`).
 - [ ] **Agentic** — render the canonical `CLAUDE.md`; create the `AGENTS.md` symlink

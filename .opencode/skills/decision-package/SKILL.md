@@ -149,7 +149,7 @@ items recast for decision-readiness.
   [`../architecture/SKILL.md`](../architecture/SKILL.md).
 
 **Related:** `semantic-consulting-coach`, `executive-communication`, `conceptual-modelling`,
-`architecture`.
+`architecture`, `writing-antipatterns` (Decision genre failure modes).
 
 ## Tone & style
 

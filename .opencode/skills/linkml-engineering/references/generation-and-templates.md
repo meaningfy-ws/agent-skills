@@ -94,7 +94,69 @@ job** (conditional on the project using LinkML).
 First-class (wired and tested): **Pydantic, JSON Schema, OWL, SHACL** — the semantic core. Add the rest
 only when a project consumes the target: **TypeScript** (`gen-typescript`), **SQL DDL / SQLAlchemy**
 (`gen-sqlddl`/`gen-sqla` — keep the repository around the ORM hand-written, in `adapters/`),
-**Markdown/HTML docs** (`gen-doc`), **JSON-LD context** (`gen-jsonld-context`), and **custom generators**.
+**Markdown/HTML docs** (`gen-doc`), **JSON-LD context** (`gen-jsonld-context`), **Neo4j constraints +
+neomodel OGM** (below), and further **custom generators** as a project needs them.
+
+### Neo4j constraints + neomodel OGM
+
+Two custom generators, both subclassing LinkML's `Generator` per the mechanism above. Documented
+here because the behavior is LinkML-generator knowledge — but the code itself is **not a skill
+asset**: a Skill's home is reusable *knowledge* (`spec/skill-repo-governance.md`), not a maintained,
+tested codebase. The generators live as repo tooling at `tools/linkml_neo4j/` (tested by skillery's
+own `tests/`, same pattern as `tools/repo_lint`/`tools/opencode_gen`), and `project-setup` is the one
+that projects a pinned copy into a consuming repo — this skill cites them, it doesn't own them.
+Enable when a project targets Neo4j:
+
+- **`gen-neo4j-constraints`** emits Cypher DDL (uniqueness, existence, property-type constraints, and
+  `CREATE INDEX` for any slot annotated `annotations: {neo4j_index: true}`). Targets **Neo4j Community
+  Edition only** — `--profile community` (uniqueness + indexes, the subset this generator can
+  currently prove runs on Community) vs `--profile full` (also existence/type, carried over from an
+  assumption not yet re-verified against a real Community instance; see the generator's own module
+  docstring for the current state of that verification). It emits no relationship-level constraints
+  and no application-layer validation (patterns, enum membership, numeric bounds, relationship
+  cardinality) — that's `gen-neomodel`'s job, on the Python side, not a second Cypher-side mechanism.
+- **`gen-neomodel`** emits neomodel `StructuredNode` classes, mirroring the schema's `is_a` hierarchy as
+  real Python inheritance (abstract LinkML classes become `__abstract_node__ = True` bases) so that a
+  relationship whose range is an abstract class resolves correctly instead of pointing at an undefined
+  name. A slot's `any_of` range restriction is documented as a trailing comment on the generated
+  relationship, not mechanically enforced. Also note: neomodel reserves the Python attribute names
+  `id`, `deleted`, `element_id` — a schema whose identifier slot is (conventionally) named `id` gets a
+  `_`-suffixed Python attribute (`id_`) with `db_property=...` preserving the real Neo4j property key.
+
+#### Installing
+
+Pick your role:
+
+| You are… | Do this |
+|---|---|
+| **Scaffolding a new project** with `project-setup` | Answer LinkML (Q4.5) + Neo4j (Q5.1) in the interview, or pass `--neo4j` directly to `scaffold.sh` (product archetype only). This copies both generators into your repo's `scripts/`, pinned. |
+| **Adding it to an existing project** | Re-run `project-setup` (`scaffold.sh ... --neo4j --skip-existing`) — additive, never touches unrelated files. |
+| **Working inside skillery itself** | No install needed — run them directly from `tools/linkml_neo4j/`. |
+
+The pinned copy in your repo is a **snapshot**, not a live link back to skillery — refresh it by
+re-running `project-setup` with `--force` (shows what changed; never silently overwritten), same
+discipline as the `meaningfy` OpenSpec schema pin (`spine-projection.md`).
+
+#### Using
+
+```bash
+# From your project root, once scripts/gen_neo4j_constraints.py + gen_neomodel.py exist:
+pip install linkml click jinja2 neomodel   # generator dependencies (not runtime deps of your project)
+
+python scripts/gen_neo4j_constraints.py model/schema.yaml --profile community > model/generated/neo4j/constraints.cypher
+python scripts/gen_neomodel.py model/schema.yaml > model/generated/neomodel/ogm.py
+```
+
+Wire both into your project's `make generate-models` (or an equivalent `make neo4j-constraints` /
+`make neomodel` target) the same way `gen-pydantic`/`gen-owl`/`gen-shacl` already are — see "The
+`make generate-models` bridge" above. `--profile` defaults to `full`; pass `community` explicitly if
+you're deploying to Neo4j Community and want only the constraint types this generator can currently
+prove run there (see its module docstring for the current verification state).
+
+Both generators ship with a synthetic fixture schema and a vendored real-world fixture as their test
+suite (`tests/test_linkml_neo4j_generators.py`); `project-setup` projects a pinned copy into a
+consuming repo, refreshed the same way as the `meaningfy` OpenSpec schema (re-run, review the diff,
+never silently overwritten).
 
 ## Architectural boundary for generated modules
 

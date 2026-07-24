@@ -1,0 +1,183 @@
+id: http://meaningfy.ws/ontology/hulubul/request
+name: hulubul_request
+title: Hulubul Delivery Request Model
+description: >-
+  The central transaction of Hulubul V1. A DeliveryRequest ties sender, receiver,
+  transporter, parcels, pickup/drop-off locations and status together. Its
+  RequestStatus is the only lifecycle in the model and is what all access-control
+  disclosure gates read.
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  hlb: http://meaningfy.ws/ontology/hulubul/
+default_prefix: hlb
+default_range: string
+
+imports:
+  - hulubul_common
+  - hulubul_spatial
+  - hulubul_agent
+
+classes:
+
+  DeliveryRequest:
+    class_uri: hlb:DeliveryRequest
+    description: >-
+      A request to move one or more parcels from a pickup location to a drop-off
+      location, carrying its participants, status and lifecycle timestamps.
+    aliases: [Transport Request, Shipment Request, ParcelRequest]
+    slots:
+      - id
+    attributes:
+      requestNote:
+        slot_uri: hlb:requestNote
+        description: Free-text notes attached to the request.
+        multivalued: true
+      preferredPeriod:
+        slot_uri: hlb:preferredPeriod
+        description: The requester's preferred timeframe (orientative, free text).
+      created:
+        slot_uri: hlb:created
+        description: When the request was created.
+        range: datetime
+        required: true
+      updated:
+        slot_uri: hlb:updated
+        description: When the request was last modified.
+        range: datetime
+        required: true
+      closed:
+        slot_uri: hlb:closed
+        description: When the request was closed/terminated.
+        range: datetime
+        required: false  # ponytail: source drew [1] but an open request has no
+                         # close time → [0..1].
+      hasSender:
+        slot_uri: hlb:hasSender
+        description: The sender participation for this request.
+        range: Sender
+        required: true
+        inlined: false
+      hasReceiver:
+        slot_uri: hlb:hasReceiver
+        description: The primary receiver participation.
+        range: Receiver
+        required: true
+        inlined: false
+      hasTransporter:
+        slot_uri: hlb:hasTransporter
+        description: The assigned transporter participation, once one is selected.
+        range: Transporter
+        inlined: false
+      hasStatus:
+        slot_uri: hlb:hasStatus
+        description: Current lifecycle status.
+        range: RequestStatus
+        required: true
+      hasDeliveryItem:
+        slot_uri: hlb:hasDeliveryItem
+        description: The parcel(s) to be delivered.
+        range: Parcel
+        multivalued: true
+        required: true
+        inlined: false
+      hasPickUpLocation:
+        slot_uri: hlb:hasPickUpLocation
+        description: Where the parcel(s) are collected — an Address or a named Place.
+        range: SpatialObject
+        required: true
+        inlined: false
+        any_of:  # ponytail: range restricted to Address ∪ Place (Area is too
+          - range: Address  # coarse to be a pickup point); source could only draw
+          - range: Place    # the abstract SpatialObject.
+      hasDropOffLocation:
+        slot_uri: hlb:hasDropOffLocation
+        description: Where the parcel(s) are delivered — an Address or a named Place.
+        range: SpatialObject
+        required: true
+        inlined: false
+        any_of:
+          - range: Address
+          - range: Place
+      hasAltDropOffLocation:
+        slot_uri: hlb:hasAltDropOffLocation
+        description: >-
+          An alternative drop-off location (Address or Place). Owner resolved to
+          request-level per diagram 2 (a Receiver-level variant was drawn in
+          diagram 3 — not modelled here).
+        range: SpatialObject
+        inlined: false
+        any_of:
+          - range: Address
+          - range: Place
+
+  Parcel:
+    class_uri: hlb:Parcel
+    description: A physical item to be delivered as part of a request.
+    aliases: [Package, Item, Shipment Item]
+    slots:
+      - id
+    attributes:
+      declaredContent:
+        slot_uri: hlb:declaredContent
+        description: The sender's declared description of contents.
+        required: true
+      photoURL:
+        slot_uri: hlb:photoURL
+        description: URLs of photos of the parcel.
+        range: uri
+        multivalued: true
+      weightKg:
+        slot_uri: hlb:weightKg
+        description: Weight in kilograms.
+        range: float
+      dimensions:
+        slot_uri: hlb:dimensions
+        description: Free-text dimensions (e.g. "30x20x10 cm").
+      hasAltReceiver:
+        slot_uri: hlb:hasAltReceiver
+        description: An alternative receiver for this specific parcel.
+        range: Receiver
+        inlined: false
+
+enums:
+
+  RequestStatus:
+    enum_uri: hlb:RequestStatus
+    description: >-
+      Lifecycle states of a DeliveryRequest. Listed in intended progression
+      order; access gates read these as reached-milestone, not numeric compare.
+    permissible_values:
+      new:
+        meaning: hlb:new
+        description: Just created; not yet triaged.
+      needsClarification:
+        meaning: hlb:needsClarification
+        description: Awaiting more information from the sender.
+      complete:
+        meaning: hlb:complete
+        description: Fully specified and ready to be matched.
+      optionsProposed:
+        meaning: hlb:optionsProposed
+        description: One or more transporters have been proposed/recommended (recommended gate).
+      waitingResponse:
+        meaning: hlb:waitingResponse
+        description: Awaiting a party's response to proposed options.
+      accepted:
+        meaning: hlb:accepted
+        description: A transporter has committed; the job is on (accepted gate).
+      rejected:
+        meaning: hlb:rejected
+        description: The proposed option(s) were declined.
+      pickUpPlanned:
+        meaning: hlb:pickUpPlanned
+        description: Pickup has been scheduled.
+      pickedUp:
+        meaning: hlb:pickedUp
+        description: Parcel(s) collected.
+      delivered:
+        meaning: hlb:delivered
+        description: Parcel(s) delivered.
+      cancelled:
+        meaning: hlb:cancelled
+        description: Request cancelled.
