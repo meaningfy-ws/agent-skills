@@ -7,7 +7,7 @@ carry their own `LICENSE.txt`; where present, that license governs the skill.
 
 The Meaningfy skills and methodology **reference** (and depend on, but do not vendor)
 the following external Claude Code skills/plugins. They are installed separately — see
-[`docs/environment-setup.md`](docs/environment-setup.md). Each remains under its own
+[`docs/environment/setup.md`](docs/environment/setup.md). Each remains under its own
 license held by its respective owner:
 
 | Component | Role here | Source |

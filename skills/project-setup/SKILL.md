@@ -37,7 +37,7 @@ rather than restating them:
 | TDD discipline while implementing | `superpowers:test-driven-development` |
 
 The spine conventions it lays down are documented in [`../../spine/README.md`](../../spine/README.md);
-the target layout in [`../../docs/ai-coding/openspec-setup-guide.md`](../../docs/ai-coding/openspec-setup-guide.md).
+the target layout in [`../../docs/environment/openspec-setup-guide.md`](../../docs/environment/openspec-setup-guide.md).
 **This skill DOES; those docs DESCRIBE.**
 
 ## Modes

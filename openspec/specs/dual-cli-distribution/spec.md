@@ -54,7 +54,7 @@ The change SHALL provide a committed compatibility matrix recording, for each ex
 - **THEN** the matrix names the equivalent baseline capability on each CLI or records a gap
 
 ### Requirement: Per-CLI documentation split
-Documentation under `docs/` SHALL clearly distinguish opencode setup and configuration from Claude setup and configuration, over a shared source→CLI mapping reference, and SHALL cover the pinned opencode version and recorded gaps. Each role bundle SHALL have a documented install path on each CLI. Each per-CLI runbook (`docs/dual-cli/setup-claude.md`, `docs/dual-cli/setup-opencode.md`) SHALL present its install path as a literal numbered sequence of steps, where each step names exactly one runnable action — a copy-paste command block or a single external link — plus at most one line of rationale, and the sequence SHALL end with a verification step naming a command and its expected output. Version numbers and dependency pins SHALL be linked to their single source (`docs/environment-setup.md`) rather than restated in the runbook.
+Documentation under `docs/` SHALL clearly distinguish opencode setup and configuration from Claude setup and configuration, over a shared source→CLI mapping reference, and SHALL cover the pinned opencode version and recorded gaps. Each role bundle SHALL have a documented install path on each CLI. Each per-CLI runbook (`docs/environment/dual-cli/setup-claude.md`, `docs/environment/dual-cli/setup-opencode.md`) SHALL present its install path as a literal numbered sequence of steps, where each step names exactly one runnable action — a copy-paste command block or a single external link — plus at most one line of rationale, and the sequence SHALL end with a verification step naming a command and its expected output. Version numbers and dependency pins SHALL be linked to their single source (`docs/environment/setup.md`) rather than restated in the runbook.
 
 #### Scenario: A team member can set up either CLI
 - **WHEN** a team member follows the documentation for their chosen CLI
@@ -74,7 +74,7 @@ Documentation under `docs/` SHALL clearly distinguish opencode setup and configu
 
 #### Scenario: Version pins are not duplicated in the runbook
 - **WHEN** a runbook step installs a versioned external dependency
-- **THEN** the step links to `docs/environment-setup.md` for the pinned version rather than restating the version number inline
+- **THEN** the step links to `docs/environment/setup.md` for the pinned version rather than restating the version number inline
 
 ### Requirement: Tool-native registration stays separate
 Slash-command registration/invocation SHALL be tool-native: its registration form SHALL NOT be generated identically across CLIs. The shared surface is limited to standards/context (the root binding), behaviour (skill bodies), command *content/templates*, and the hook *intent inventory* — not native command registration or native hook bindings.
@@ -118,16 +118,16 @@ The repository SHALL document, in exactly one canonical location (the root `AGEN
 any added or updated skill, agent, command, or spec must work on both CLIs — covering opencode-tree
 regeneration, CLI-agnostic bodies, and per-CLI command registration. Other documents SHALL link this
 rule rather than restate it. Installation documentation SHALL form a single hierarchy — `README.md`
-(front door) → `docs/environment-setup.md` (canon) → the per-CLI runbooks — with `docs/dual-cli/` as a
+(front door) → `docs/environment/setup.md` (canon) → the per-CLI runbooks — with `docs/environment/dual-cli/` as a
 reference annex, not a competing install hub.
 
 #### Scenario: Authoring rule has one home
 - **WHEN** a contributor looks up how to keep a change working on both CLIs
 - **THEN** the canonical rule is in `AGENTS.md`, and other docs (`CREATING_SKILLS.md`,
-  `environment-setup.md`, `README.md`) link to it without restating it
+  `docs/environment/setup.md`, `README.md`) link to it without restating it
 
 #### Scenario: Install entry is the canon, the dual-CLI folder is the annex
 - **WHEN** a reader sets out to install the catalogue on either CLI
-- **THEN** the documented install path starts at `docs/environment-setup.md` (front door `README.md`),
-  and `docs/dual-cli/` is presented as the reference annex rather than a parallel install entry
+- **THEN** the documented install path starts at `docs/environment/setup.md` (front door `README.md`),
+  and `docs/environment/dual-cli/` is presented as the reference annex rather than a parallel install entry
 

@@ -8,7 +8,7 @@ projection; `scripts/scaffold.sh` DOES it.
 > Background reading (skillery repo root): the spine README, the EPIC↔change mapping, the workflow
 > roster, and the golden thread — `../../../spine/README.md`, `../../../spine/epic-change-memory-mapping.md`,
 > `../../../spine/workflows.md`, `../../../spine/golden-thread.md`. The target layout is described in
-> `../../../docs/ai-coding/openspec-setup-guide.md`.
+> `../../../docs/environment/openspec-setup-guide.md`.
 
 ## What gets scaffolded
 

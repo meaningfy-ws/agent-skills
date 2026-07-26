@@ -3,7 +3,7 @@
 The company-wide home for working with LLM agents **consistently**: reusable agent **skills**, thin
 **agents**, human **methodology & standards** docs, and the **binding templates** that wire them into
 any project. Runs identically on **Claude Code** and **opencode** from one set of sources — see
-[`docs/dual-cli/`](docs/dual-cli/README.md).
+[`docs/environment/dual-cli/`](docs/environment/dual-cli/README.md).
 
 ## What this is
 
@@ -52,7 +52,7 @@ Thin **agent** wrappers live in [`agents/`](agents/) — `epic-planner`, `implem
 Runs on **Claude Code** and **opencode**, from the same sources, with gate-verified parity — pick
 either, you don't need both.
 
-**Start here:** [`docs/environment-setup.md`](docs/environment-setup.md). It's the canonical,
+**Start here:** [`docs/environment/setup.md`](docs/environment/setup.md). It's the canonical,
 CLI-agnostic entry point — what to install and why — and links you into your CLI's literal,
 copy-paste step-by-step (bundles, mandatory deps, root binding, spine commands, an MCP server if you
 want one, and a verify step) from there. You shouldn't need to go looking for any other doc to get
@@ -130,11 +130,13 @@ natively instead.
 
 | Where | What | Read it when… |
 |---|---|---|
-| [`docs/dual-cli/`](docs/dual-cli/README.md) | the **dual-CLI reference annex** — per-CLI setup runbooks, source→CLI mapping, compatibility matrix, MCP shapes (install starts at [`environment-setup.md`](docs/environment-setup.md); authoring rules are in [`AGENTS.md`](AGENTS.md#dual-cli-authoring-rules)) | you're installing on opencode, or adding a skill/agent that must work on both CLIs |
-| [`docs/ai-coding/`](docs/ai-coding/) | the two-tier method + the `/opsx` runbook + DoD/quality gates | you're learning how we build with agents |
+| [`docs/ai-coding/`](docs/ai-coding/) | the build-plane lifecycle + the `/opsx` runbook + DoD/quality gates + role playbooks | you're learning how we build with agents |
+| [`docs/ai-sales/`](docs/ai-sales/engagement-lifecycle.md) | the commercial engagement lifecycle, the sales runbook and DoD, and the sellable services catalogue (one page per Semantic Layer building block, or a named gap) | you're scoping or describing a commercial offering to a client |
+| [`docs/ai-consulting/`](docs/ai-consulting/advisory-runbook.md) | the Deep-tier advisory runbook, the consulting DoD, and the method docs (gap analysis, and four named-but-unowned technique stubs) | you're running or reviewing a Discovery & Onboarding Deep-tier engagement |
+| [`docs/roles-and-raci.md`](docs/roles-and-raci.md) | the six project roles and the RACI matrix, cited by every domain's playbooks | you want to know who is accountable for what |
+| [`docs/environment/`](docs/environment/setup.md) | machine/tooling setup: external deps, the dual-CLI reference annex, the `openspec/` setup guide | you're installing or extending the catalogue |
 | [`spine/`](spine/) | the spec-backbone conventions (workflows, golden thread, lifecycle) | you're working with `openspec/` / the spine |
 | [`docs/engineering-standards/`](docs/engineering-standards/) | testing standard, project structure, coding prompt — these **narrate**; the operational rules are the [code-principles catalogue](skills/cosmic-python/references/principles-and-anti-patterns.md) | you want the durable engineering canon |
-| [`docs/engagement/`](docs/engagement/) | the P0–P3 engagement model | you're scoping/running a client engagement |
 | [`docs/philosophy/`](docs/philosophy/) | the mindset behind it all | you want the *why* |
 | [`spec/`](spec/) | how to author a skill (governance + template) | you're contributing a skill |
 
@@ -148,7 +150,7 @@ natively instead.
 skillery/
 ├── skills/        # flat: skills/<skill>/  (bundles group them in marketplace.json)
 ├── agents/        # three thin wrappers (no knowledge): epic-planner, implementer, code-reviewer
-├── docs/          # ai-coding/ · engineering-standards/ · philosophy/ · engagement/ · environment-setup.md
+├── docs/          # ai-coding/ · ai-sales/ · ai-consulting/ · engineering-standards/ · philosophy/ · roles-and-raci.md · environment/
 ├── prompts/       # CLAUDE.md.template, global-prompt.md (AGENTS.md-canonical; CLAUDE.md is a thin pointer)
 ├── .opencode/     # GENERATED opencode tree (skills/agents/bundles); make generate-opencode — never hand-edit
 ├── spec/          # authoring spec, governance, skill-template.md, CREATING_SKILLS.md

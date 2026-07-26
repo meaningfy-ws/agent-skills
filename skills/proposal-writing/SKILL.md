@@ -35,12 +35,12 @@ It composes by reference and restates nothing:
 
 ## Flow (R2)
 
-**Inputs:** P0 orientation notes / prospect context (the qualification signals the coach surfaced).
+**Inputs:** presale / P0-advisory notes / prospect context (the qualification signals the coach surfaced).
 **Output:** a proposal + SoW with an explicit in/out scope boundary, priced as a fixed frame.
 
 1. **Qualify the need.** Confirm the prospect has crossed the free→paid boundary — they are asking
-   *"what do we do first, and why?"*, not *"is this relevant?"*. If they have not, this is still P0
-   orientation; do **not** write a paid proposal yet (see the boundary discipline in
+   *"what do we do first, and why?"*, not *"is this relevant?"*. If they have not, this is still
+   presale (or, at most, P0-advisory); do **not** write a paid P1 proposal yet (see the boundary discipline in
    [`engagement-model.md`](../semantic-consulting-coach/references/engagement-model.md)). Capture the
    problem, the deciding persona, the measurable outcome, and the constraints.
 2. **Frame the Decision Phase offer.** State what P1 delivers — the Decision Package (recommendation,

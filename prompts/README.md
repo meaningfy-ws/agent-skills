@@ -16,7 +16,7 @@ The thin "always-on" layer that wires skills into a project. Two tiers:
 - **Single source of authority**: fill in `CLAUDE.md` and keep it as the one source; do not duplicate
   policy across multiple agentic files.
 - Each template carries a `meaningfy-template-version` stamp so a consuming repo can tell when it is
-  behind. Refresh with `scripts/init-meaningfy-project.sh` (see `docs/environment-setup.md`).
+  behind. Refresh with `scripts/init-meaningfy-project.sh` (see `docs/environment/setup.md`).
 
 ## Optional AGENTS.md symlink
 

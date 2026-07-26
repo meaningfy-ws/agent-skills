@@ -2,33 +2,16 @@
 
 **Audience:** Meaningfy developers and agents working under the two-tier method.
 
-**Purpose:** the single authority for the quality-gate ladder — both the **engagement** stage gates
-(human/commercial, below) and the **build-tier** Definition of Done (one Epic) and its automated
-gates. Other docs summarise these definitions rather than restating them. See
-[two-tier-methodology.md](two-tier-methodology.md) for the model and
-[opsx-runbook.md](opsx-runbook.md) for the flow.
+**Purpose:** the single authority for the **build-tier**, **Builder's-DoD-only** quality-gate
+ladder: the Definition of Done for one Epic and its automated gates. Other docs summarise these
+definitions rather than restating them. See [build-lifecycle.md](build-lifecycle.md) for the model
+and [opsx-runbook.md](opsx-runbook.md) for the flow.
 
-This is **one ladder** with two clearly-separated halves: the **engagement gates** (human/commercial,
-below) sit *above* the **build gates** (automated, further down). They share one file so the
-hand-off from selling to building is a single, legible sequence (Q8.2=A).
-
-## Engagement gates (human / commercial)
-
-These govern the engagement *above* the build tier (P0–P3 — see
-[`docs/engagement/`](../engagement/README.md)). They are human/commercial sign-offs, a different
-audience and cadence from the automated build gates.
-
-| Gate | When | Enforcement |
-|------|------|-------------|
-| **Proposal signed** | end of P0 → P1 | human sign-off (commercial) — see [`proposal-writing`](../../skills/proposal-writing/SKILL.md) + [`estimation`](../../skills/estimation/SKILL.md) |
-| **Decision accepted** | end of P1 | human sign-off (client) — the [`decision-package`](../../skills/decision-package/SKILL.md) is accepted |
-| **Architecture accepted** | start of P2 | human sign-off **+** `openspec validate --strict` on the architecture spec |
-| **Build DoD** | per Epic in P2 | the automated build-tier gate set below (EPIC-05) |
-
-> **Commercial layer — TODO (to be shaped).** The wider commercial mechanics (qualification,
-> pre-sale, sale, marketing, CRM & lead communication, service packaging, fit-for-market) are **not
-> yet developed** — they are to be brainstormed, debated, and crystallised. This ladder covers only
-> the stage gates that are already settled.
+For the commercial-plane Shipper's DoD (contract conformance), see
+[`docs/ai-sales/sales-dod.md`](../ai-sales/sales-dod.md) (a different audience, cadence, and
+accountable role, owned and defined there, not here). For the business-side (human/commercial)
+stage gates (the Discovery & Onboarding safeguards, for example), see
+[`docs/ai-sales/engagement-lifecycle.md`](../ai-sales/engagement-lifecycle.md).
 
 ## The build-tier gate set
 
@@ -41,21 +24,54 @@ audience and cadence from the automated build gates.
 | **Architecture check** | structural | [`cosmic-python`](../../skills/cosmic-python/SKILL.md) + import-linter | Layer direction respected (`entrypoints → services → models`, `adapters → models`); no forbidden imports |
 | **Code review** | content | [`meaningfy-code-review`](../../skills/meaningfy-code-review/SKILL.md) | No unaddressed Critical findings (architecture, security, spec conformance) |
 
-## The automation boundary (single source — other EPICs reference this)
+## The automation boundary (single source: other docs reference this)
 
-- **`openspec validate --strict` is CI-automated** — it runs structurally in the pipeline (and in
+- **`openspec validate --strict` is CI-automated:** it runs structurally in the pipeline (and in
   `make validate-spine`).
-- **`clarity-gate` is a human/agent gate — NOT CI-automated.** It is semantic judgement; it cannot
+- **`clarity-gate` is a human/agent gate, NOT CI-automated.** It is semantic judgement; it cannot
   be reduced to a deterministic CI check. Do not assume CI enforces it.
 
 Guardrails ([`guardrails`](../../skills/guardrails/SKILL.md)) reuse these same gates for
-output validation — they do not add a parallel enforcement stack.
+output validation; they do not add a parallel enforcement stack.
+
+## Delivery & Release
+
+Delivery & Release is two parallel lanes converging on one gate; neither lane is ever subordinate
+to the other.
+
+**The Builder's DoD** (build-plane, Builder-side): the accountability that the shipped increment
+conforms to the Epic and the architecture:
+
+- **Built right (verification):** tests green, coverage met, architecture check clean, review passed.
+- **Right thing built (validation):** acceptance criteria and `.feature` scenarios, written from
+  the Epic, demonstrably pass; the delivered behaviour matches the shaped bet.
+
+Accountability: the **Builder** role, defined in
+[`docs/roles-and-raci.md`](../roles-and-raci.md#solution-builder), not
+restated here.
+
+**The Shipper's DoD (contract conformance)** is whether the shipped increment matches what was
+promised to the client. It closes together with the Builder's DoD, on a different, commercial plane.
+Its definition, the document trail it checks against, and its human-sign-off nature are owned by
+[`docs/ai-sales/sales-dod.md`](../ai-sales/sales-dod.md), not restated here.
+
+Neither DoD substitutes for the other.
+
+**Disagreement rule:** when the Builder's DoD and the Shipper's DoD disagree, neither verdict
+overrides the other: the mismatch means the Epic and the contract have drifted apart, resolved by
+a logged re-shape. This rule is stated once, here, and applies to **both** DoDs; any other document
+cites it rather than restating it.
+
+**Release mechanics** (how, not what's checked here):
+[`ci-cd-delivery`](../../skills/ci-cd-delivery/SKILL.md) (CD/deploy),
+[`meaningfy-release`](../../skills/meaningfy-release/SKILL.md) (versioning/changelog/publish),
+[`meaningfy-git-workflow`](../../skills/meaningfy-git-workflow/SKILL.md) (branch/commit/PR).
 
 ## Definition of Done (a task)
 
 A task is done when **all** hold:
 
-- [ ] Implements its EPIC acceptance criteria; no undocumented divergence from the spec.
+- [ ] Implements its Epic's acceptance criteria; no undocumented divergence from the spec.
 - [ ] Unit tests per affected layer (models, adapters, services, entrypoints); BDD scenarios covered.
 - [ ] Tests green; coverage ≥ 80% (and not lower than before).
 - [ ] Architecture check passes (import-linter).
@@ -70,8 +86,10 @@ A task is done when **all** hold:
 - [ ] All `.feature` scenarios pass; error-matrix scenarios covered.
 - [ ] Change verified, then synced/archived into `openspec/specs/`.
 
-## The two questions
+## The three questions across both lanes
 
-- **Built right (verification):** tests green, coverage met, architecture check clean, review passed.
-- **Right thing built (validation):** acceptance criteria and `.feature` scenarios — written from
-  the EPIC — demonstrably pass; the delivered behaviour matches the shaped bet.
+Both DoDs, taken together, answer exactly three questions. The Builder's two, **built right
+(verification)** and **right thing built (validation)**, are defined in full under
+[Delivery & Release](#delivery--release) above and are not restated here. The third belongs to the
+Shipper: **did we deliver what was promised (contract conformance)**, answered by the document-trail
+sign-off defined in [`docs/ai-sales/sales-dod.md`](../ai-sales/sales-dod.md), not this doc.

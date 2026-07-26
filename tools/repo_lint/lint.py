@@ -36,7 +36,11 @@ ALL_AGENT_NAMES = {"implementer", "code-reviewer", "epic-planner", "gherkin-writ
 # without a local skills/<name>/ dir). Namespaced skills (e.g. `superpowers:tdd`) are external by form.
 EXTERNAL_SKILLS = {"stream-coding"}
 # Files/dirs whose content must never be edited (frozen) — excluded from prose checks.
-FROZEN_GLOBS = ("docs/ai-coding/",)
+# `docs/ai-coding/` was the only entry and is no longer frozen as of the
+# `define-meaningfy-lifecycle` change: its premise ("content must never be edited") became
+# false the moment that change rewrote `build-lifecycle.md` in place. Left empty (not deleted)
+# so the mechanism stays available for a future freeze without speculative re-engineering.
+FROZEN_GLOBS = ()
 
 _FRONTMATTER = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 _MD_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
@@ -261,8 +265,13 @@ def orphan_agent_references(repo: Path) -> list[str]:
         if (agents_dir / f"{agent}.md").exists():
             continue
         for f in _iter_text_files(repo):
-            # frozen docs predate the change; EPIC + the migration note name agents on purpose
-            if _is_frozen(repo, f) or f.name.startswith("EPIC-setup") or f.name == "environment-setup.md":
+            # frozen docs predate the change; EPIC + the migration note name agents on purpose;
+            # active openspec/changes/ trees legitimately name retired/added agents in their
+            # proposal.md and preserved seeds (archived changes are already skipped upstream
+            # at _iter_text_files via _ARCHIVE_PREFIX).
+            if (_is_frozen(repo, f) or f.name.startswith("EPIC-setup")
+                    or str(f.relative_to(repo)) == "docs/environment/setup.md"
+                    or str(f.relative_to(repo)).startswith("openspec/changes/")):
                 continue
             if re.search(rf"\b{re.escape(agent)}\b", f.read_text(encoding="utf-8")):
                 out.append(f"{f.relative_to(repo)} references dropped agent '{agent}'")

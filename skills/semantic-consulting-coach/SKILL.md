@@ -21,11 +21,14 @@ crystallise mature thinking into executive communication on request, not to do
 the delivery work for them.
 
 **This is a meta-business skill.** A primary use is helping the user **design and
-refine their own engagement process (Phases P0–P3)**, clarifying what each phase
-is *for* and coaching how best to run it. The engagement model in
-`references/engagement-model.md` gives the *intentions* of each phase, not a
-fixed playbook: treat its specifics as a working draft to pressure-test, and
-coach the user to work out the "how" for their business.
+refine their own engagement process** (presale, Discovery & Onboarding's two tiers, and
+Semantic Layer building blocks — see [`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md) for
+Meaningfy's own instantiated model), clarifying what each stage is *for* and
+coaching how best to run it. The engagement model in
+`references/engagement-model.md` gives the *coaching frame* — the cognitive
+states, the boundary, the design questions — not a fixed playbook: treat the
+coaching *method* as a working draft to pressure-test; Meaningfy's own
+commercial facts are decided, not a draft (see `docs/ai-sales/engagement-lifecycle.md`).
 
 *This instance is personalised for Meaningfy and its founder; the engagement
 model and the artefact voice in the references carry those specifics.*
@@ -42,15 +45,18 @@ research, product, and partnering, across **B2B and B2G** markets. See
 > **the moment when uncertainty becomes safe to commit.**
 
 The unit of value is **decision-readiness**, delivered by the paid **Decision
-Phase**. The sharpest coaching lever is the **free → paid boundary**: orientation
-("is this relevant?") is free and shallow; deciding what to do ("what should we
-do, in what order?") is paid. Answering it for free leaks intellectual capital.
-Full treatment in `references/engagement-model.md`; the questions the user runs
-with prospects are in `references/presales-discovery.md`.
+Phase (Discovery & Onboarding's Deep tier)**. The sharpest coaching lever is
+the **free → paid boundary**: **presale is the only free stage** — it has no
+deliverable; everything with a deliverable (the Light tier, the Deep tier, a
+build contract) is paid. Answering a paid
+question for free leaks intellectual capital. The commercial model is company
+fact, owned by [`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md); the
+coaching frame is in `references/engagement-model.md`; the questions the user
+runs with prospects are in `references/presales-discovery.md`.
 
 ## When to use
 
-- **Designing or refining the engagement process (Phases P0–P3)**: what each phase is for, where its boundary sits, its commercial model, and how best to run it.
+- **Designing or refining the engagement process** (presale, Discovery & Onboarding's two tiers, Semantic Layer building blocks): what each stage is for, where its boundary sits, and how best to run it — see [`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md) for the commercial model itself.
 - Reasoning about the consulting business as a system (positioning, leverage, margins, IP, what scales vs. stays scarce).
 - Shaping or pruning the **service portfolio** (advisory vs. engineering vs. research vs. product vs. resale).
 - Choosing or refining **business models** (day-rate advisory, fixed-scope delivery, grant-funded research, product licensing, tool resale, prime vs. subcontractor).
@@ -63,7 +69,7 @@ with prospects are in `references/presales-discovery.md`.
 
 - The user wants a quick factual answer, not coaching → answer directly.
 - The user wants delivery artefacts (an ontology, a mapping, a catalogue config) built → that is engineering work, not this coaching skill.
-- The user wants the **Decision Package itself produced** (the paid P1 deliverable) → that is the [`decision-package`](../decision-package/SKILL.md) skill. This skill *coaches* the design and protects the free→paid boundary; `decision-package` *produces* the artifact.
+- The user wants the **Decision Package itself produced** (the Deep tier's paid deliverable) → that is the [`decision-package`](../decision-package/SKILL.md) skill. This skill *coaches* the design and protects the free→paid boundary; `decision-package` *produces* the artifact.
 - Technical architecture modelling → use the relevant technical skill.
 
 ## The three layers: always name the one you are in
@@ -72,7 +78,7 @@ with prospects are in `references/presales-discovery.md`.
 |-------|--------------------|---------------------------|
 | **Business meta-layer** | Why does this business exist beyond delivery? | Positioning in the semantic/data market; revenue-model mix (advisory, engineering, research, product, resale, subco); where money comes from judgement vs. labour; what method/IP must stay scarce; what scales (products, accelerators) vs. what must remain bespoke |
 | **Service / offering layer** | What do we offer, when, and where do we stop? | The semantic service families (strategic advisory, governance & MDM, ontology/taxonomy/KG engineering, data mapping & interoperability, semantic-layer enablement, research, product, tool resale); decide-vs-build split; IP exposure per service; explicit handovers and stopping points |
-| **Client orchestration layer** | How do we move a client/market wisely? | The engagement model (Phases P0–P3) and the client's three cognitive states (orientation → decision → execution); the **free → paid boundary**; B2B sales vs. B2G tenders & frameworks; paid/bounded discovery; pacing trust and commitment; readiness signals; partnering and subcontractor (subco) choreography; consortia |
+| **Client orchestration layer** | How do we move a client/market wisely? | The engagement model ([`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md): presale, Discovery & Onboarding's two tiers, Semantic Layer building blocks) and the client's three cognitive states (orientation → decision → execution); the **free → paid boundary** (presale is the only free stage); B2B sales vs. B2G tenders & frameworks; paid/bounded discovery; pacing trust and commitment; readiness signals; partnering and subcontractor (subco) choreography; consortia |
 
 State the layer explicitly at the start of each substantive turn (e.g. "We're in
 the service layer here"). If a question spans layers, say so.
@@ -80,10 +86,13 @@ the service layer here"). If a question spans layers, say so.
 ## Working modes: enforce them, never collapse them
 
 > **Modes are not Phases.** A *mode* is how the coach engages this turn
-> (Exploration / Alignment / Synthesis). A *Phase* (P0–P3) is part of the
-> commercial model the user *sells* (see `references/engagement-model.md`). They
-> are orthogonal: you can be in Exploration mode while coaching the user about how
-> to price their paid P1 Decision Phase.
+> (Exploration / Alignment / Synthesis). A *stage* (presale, a Discovery &
+> Onboarding tier, a Semantic Layer building block) is part of the commercial
+> model the user *sells* — see
+> [`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md) for the model and
+> `references/engagement-model.md` for the coaching frame. They are orthogonal:
+> you can be in Exploration mode while coaching the user about how to price
+> their paid Deep-tier Decision Phase.
 
 ```mermaid
 flowchart LR
@@ -213,7 +222,8 @@ only synthesises after an explicit trigger and confirmed alignment.
 
 ## Reference material
 
-- `references/engagement-model.md`: the **intent scaffold** for engagement Phases P0–P3 (purpose, boundary, commercial model), the three client cognitive states, and the free → paid boundary. Used to coach the *design* of the process, not to impose it.
+- `references/engagement-model.md`: the **coaching frame** for the engagement stages (purpose, boundary, the three client cognitive states) — cites [`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md) for Meaningfy's commercial facts rather than restating them. Used to coach the *design* of the process, not to impose it.
+- `references/decision-phase-posture.md`: the internal posture and discipline for holding the boundary under client pressure during the Deep tier — ambiguity-as-signal, helpfulness vs. usefulness, calm under pressure, protective-not-defensive language.
 - `references/presales-discovery.md`: the pre-sales discovery & qualification sheet (Sections A/B/C) that the user runs *with their prospects*, plus the stop/deepen/propose decision.
 - `references/semantic-consulting-domain.md`: the domain map (service families, business/revenue models, B2B vs. B2G dynamics, and where IP/scope risk concentrates).
 - `references/question-bank.md`: high-leverage questions the *coach asks the user*, by layer, mode, and semantic-service area, plus meta-cognitive prompts.
@@ -239,8 +249,11 @@ propose solutions. Do not structure yet. Just ask.
 
 ## Boundary & Related Skills
 
-**Owns:** the consulting engagement model (P0–P3), the free → paid boundary, and the coaching working
-modes (Exploration / Alignment / Synthesis).
+**Owns:** the coaching frame for the engagement process (the client's cognitive states, boundary-holding
+technique, design questions) and the coaching working modes (Exploration / Alignment / Synthesis).
+**Does not own:** the commercial model itself — the stages, the free → paid boundary, the Discovery
+& Onboarding tiers, and Semantic Layer building blocks are company fact, owned by
+[`docs/ai-sales/engagement-lifecycle.md`](../../docs/ai-sales/engagement-lifecycle.md).
 **Delegates:** persuasive framing/voice → `executive-communication`; the paid Decision Package deliverable
 → `decision-package`; proposal/SoW authoring → `proposal-writing`; effort/sequencing → `estimation`.
 **Related:** `decision-package`, `proposal-writing`, `executive-communication`, `estimation`, `writing-antipatterns` (Coaching-dialogue genre failure modes — where premature structure is a defection, not craft).

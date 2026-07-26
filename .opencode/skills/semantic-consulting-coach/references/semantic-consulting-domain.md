@@ -68,10 +68,13 @@ and *Research & Development*. Frameworks/standards in play: **SEMIC Style Guide*
 
 **Two engagement models, not one; reconcile them.** The public site presents a
 four-step funnel (*Discovery → Proposal → Implementation → Delivery*); the
-coaching model uses the internal **P0–P3** (see `engagement-model.md`). They are
-different axes (a sales/delivery funnel vs. a free→paid value structure). A
-recurring coaching task is aligning the public story with the P0–P3 boundaries so
-the paid Decision Phase is not lost inside a "Discovery" step that reads as free.
+internal model is presale plus Discovery & Onboarding (Light/Deep tiers) and
+Semantic Layer adoption's building blocks (see
+[`docs/ai-sales/engagement-lifecycle.md`](../../../docs/ai-sales/engagement-lifecycle.md)
+and `engagement-model.md`'s coaching frame). They are different axes (a
+sales/delivery funnel vs. a free→paid value structure). A recurring coaching
+task is aligning the public story with the internal boundaries so the paid
+tiers are not lost inside a "Discovery" step that reads as free.
 
 ## 2. Business / revenue models (meta-layer)
 

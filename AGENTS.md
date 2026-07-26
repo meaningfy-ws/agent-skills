@@ -24,7 +24,7 @@ See [`spec/skill-repo-governance.md`](spec/skill-repo-governance.md) for placeme
 
 This catalogue runs on both Claude Code and opencode from one set of sources, with verified parity.
 See the durable capability spec [`openspec/specs/dual-cli-distribution`](openspec/specs/dual-cli-distribution/spec.md)
-and [`docs/dual-cli/`](docs/dual-cli/README.md) (per-CLI setup + the source→CLI mapping + the
+and [`docs/environment/dual-cli/`](docs/environment/dual-cli/README.md) (per-CLI setup + the source→CLI mapping + the
 external-dependency compatibility matrix). `AGENTS.md` is canonical; `CLAUDE.md` is a thin pointer
 that adds only Claude-specific guidance.
 
@@ -55,12 +55,12 @@ update an artifact, keep both CLIs working — the gates in `make validate` enfo
   `.claude-plugin/marketplace.json`); the opencode tree is *generated*. After any change run
   `make generate-opencode` and commit the regenerated `.opencode/`. **Never hand-edit `.opencode/`** —
   the drift gate will fail. The frontmatter map is the contract in
-  [`docs/dual-cli/mapping.md`](docs/dual-cli/mapping.md); an unmappable field becomes a recorded gap,
+  [`docs/environment/dual-cli/mapping.md`](docs/environment/dual-cli/mapping.md); an unmappable field becomes a recorded gap,
   not a silent drop.
 - **Skill/agent bodies stay CLI-agnostic** — no `/opsx:`-style command forms or `.claude/` paths in a
   body unless it is on the recorded allow-list (the `body_agnosticism` check fails otherwise). Phrase
   operationally-neutral; record an unavoidable CLI-ism as a cosmetic gap in
-  [`docs/dual-cli/body-agnosticism-audit.md`](docs/dual-cli/body-agnosticism-audit.md).
+  [`docs/environment/dual-cli/body-agnosticism-audit.md`](docs/environment/dual-cli/body-agnosticism-audit.md).
 - **Commands** — only *content/templates* are shared; registration is **tool-native** (`/opsx:<id>`
   on Claude, `opsx-<id>` on opencode). Don't try to generate one registration form for both.
 - **Specs & versions** — the root `VERSION` flows into `marketplace.json`, `opencode.json`, and the
@@ -68,7 +68,7 @@ update an artifact, keep both CLIs working — the gates in `make validate` enfo
   [`hooks/inventory.yaml`](hooks/inventory.yaml) and rendered per CLI (see
   [`hooks/bindings.md`](hooks/bindings.md)).
 
-Full per-CLI setup and the compatibility matrix: [`docs/dual-cli/`](docs/dual-cli/README.md).
+Full per-CLI setup and the compatibility matrix: [`docs/environment/dual-cli/`](docs/environment/dual-cli/README.md).
 
 ## How to validate
 
@@ -88,17 +88,18 @@ Full per-CLI setup and the compatibility matrix: [`docs/dual-cli/`](docs/dual-cl
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **skillery** (3307 symbols, 3960 relationships, 37 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **skillery** (4105 symbols, 5179 relationships, 76 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > Index stale? Run `node .gitnexus/run.cjs analyze` from the project root — it auto-selects an available runner. No `.gitnexus/run.cjs` yet? `npx gitnexus analyze` (npm 11 crash → `npm i -g gitnexus`; #1939).
 
 ## Always Do
 
 - **MUST run impact analysis before editing any symbol.** Before modifying a function, class, or method, run `impact({target: "symbolName", direction: "upstream"})` and report the blast radius (direct callers, affected processes, risk level) to the user.
-- **MUST run `detect_changes()` before committing** to verify your changes only affect expected symbols and execution flows. For regression review, compare against the default branch: `detect_changes({scope: "compare", base_ref: "main"})`.
+- **MUST run `detect_changes()` before committing** to verify your changes only affect expected symbols and execution flows. For regression review, compare against the default branch: `detect_changes({scope: "compare", base_ref: "develop"})`.
 - **MUST warn the user** if impact analysis returns HIGH or CRITICAL risk before proceeding with edits.
-- When exploring unfamiliar code, use `query({query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
+- When exploring unfamiliar code, use `query({search_query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
 - When you need full context on a specific symbol — callers, callees, which execution flows it participates in — use `context({name: "symbolName"})`.
+- For security review, `explain({target: "fileOrSymbol"})` lists taint findings (source→sink flows; needs `analyze --pdg`).
 
 ## Never Do
 

@@ -169,5 +169,5 @@ It is the routing target for "keep the code minimal" in `CLAUDE.md` — the rest
 
 - The spine projection (openspec/, schema pin, /opsx:*) → `spine-projection.md`.
 - Planning / EPIC content → **epic-planning** skill; spec readiness → **clarity-gate** skill.
-- The CLAUDE-canonical + spine target layout → `../../../docs/ai-coding/openspec-setup-guide.md`.
+- The CLAUDE-canonical + spine target layout → `../../../docs/environment/openspec-setup-guide.md`.
 - Architecture guardrails (how `code-anatomy.md` feeds `.importlinter`) → `architecture-guardrails.md`.

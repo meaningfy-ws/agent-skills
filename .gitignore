@@ -9,6 +9,10 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+# The generic build/ rule above also matches docs/how-we-work/build/ (the Build
+# fork of the how-we-work docs, not a packaging artifact) — un-ignore it.
+!/docs/how-we-work/build/
+!/docs/how-we-work/build/**
 develop-eggs/
 dist/
 downloads/

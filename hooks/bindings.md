@@ -83,7 +83,7 @@ invoked by both bindings. Only the thin event-wiring differs per CLI.
 | `PreCompact` | `PreCompact` | (no native equivalent — recorded gap) |
 
 `PreCompact` has no opencode equivalent at the pinned version → recorded as a gap in
-[`../docs/dual-cli/compatibility.md`](../docs/dual-cli/compatibility.md); the `persist-before-compaction`
+[`../docs/environment/dual-cli/compatibility.md`](../docs/environment/dual-cli/compatibility.md); the `persist-before-compaction`
 intent degrades to a `Stop`/`session.idle` binding on opencode.
 
 ## Projection at setup (task 2.6)

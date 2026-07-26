@@ -358,7 +358,7 @@ This approach requires **team discipline**. One developer ignoring layers breaks
 
 ### Documentation-First Methodology (Stream Coding)
 
-- The **stream-coding** skill (external — see `docs/environment-setup.md`) owns the documentation-first method: 40/40/20 split, mandatory spec sections, Rule of Divergence.
+- The **stream-coding** skill (external — see `docs/environment/setup.md`) owns the documentation-first method: 40/40/20 split, mandatory spec sections, Rule of Divergence.
 - The **clarity-gate** skill owns AI-ready specs + the 13-item Clarity Gate and scoring rubric.
 - Meaningfy adaptation notes live in `docs/engineering-standards/references/` (`stream-coding-notes.md`, `strategic-blueprint-checklist.md`).
 
